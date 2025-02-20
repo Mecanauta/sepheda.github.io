@@ -1,0 +1,50 @@
+%%%%%%% ESTRUCTURA PARA CREAR LAS BASES DE DATOS %%%%%%%%%%%%%%
+%%%%%%%% TABLA PARA CREAR LOS USUARIOS %%%%%%%%%%%%%%%
+CREATE TABLE usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    nombre VARCHAR(100) NOT NULL,
+    apellido VARCHAR(100) NOT NULL,
+    tipo_usuario ENUM('cliente', 'admin') NOT NULL,
+    fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP,
+    ultimo_acceso DATETIME,
+    activo BOOLEAN DEFAULT TRUE
+);
+
+%%%%%%%%%%%%%% TABLA INFORMATIBA DE CADA CLIENTE %%%%%%%%%%%%%%%%
+CREATE TABLE clientes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT NOT NULL,
+    empresa VARCHAR(100),
+    telefono VARCHAR(20),
+    direccion TEXT,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+);
+
+
+%%%%%%%%%%%%%%% TABLA DE VENTA DE TURBINA E INFORMACIÓN DE TURBINA DEL CLIENTE %%%%%%%%%%%%%%%
+CREATE TABLE turbinas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    cliente_id INT NOT NULL,
+    modelo VARCHAR(100) NOT NULL,
+    numero_serie VARCHAR(50) UNIQUE NOT NULL,
+    fecha_instalacion DATE,
+    ubicacion TEXT,
+    estado ENUM('activa', 'mantenimiento', 'inactiva') DEFAULT 'activa',
+    FOREIGN KEY (cliente_id) REFERENCES clientes(id)
+);
+
+
+%%%%%%%%%%%%%%%% TABLA DE MANTENIMIENTOS PROGRAMADOS PARA LAS TURBINAS DE CLIENTES %%%%%%%%%%%%%%%%%%%
+CREATE TABLE mantenimientos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    turbina_id INT NOT NULL,
+    fecha_programada DATE,
+    fecha_realizado DATE,
+    descripcion TEXT,
+    tecnico_id INT,
+    estado ENUM('pendiente', 'en_progreso', 'completado', 'cancelado') DEFAULT 'pendiente',
+    FOREIGN KEY (turbina_id) REFERENCES turbinas(id),
+    FOREIGN KEY (tecnico_id) REFERENCES usuarios(id)
+);
