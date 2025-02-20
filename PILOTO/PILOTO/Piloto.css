@@ -1,0 +1,117 @@
+body {
+    font-family: 'Oswald', sans-serif;
+    background: linear-gradient(to right, #e6f2ee , #bddbdb);
+    color: #16272c;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 10px 0; /* Reducido el padding vertical */
+    text-align: center;
+    border-bottom: 2px solid white;
+}
+
+/* Título más grande, llamativo y legible */
+.titulo {
+    font-size: 120px;
+    font-weight: 900;
+    text-transform: uppercase;
+    font-family: 'Orbitron', cursive;
+    background: linear-gradient(45deg, #16272c, #4d6265,#8a1715);
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: moverFondo 5s infinite linear;
+    margin: 10px 0; /* Ajustado el margen superior e inferior */
+}
+
+@keyframes moverFondo {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.container {
+    margin-top: 10px;
+}
+
+/* Estilos para el slider */
+input[type="range"] {
+    width: 50%;
+    margin: 10px 0;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 8px;
+    background: white;
+    border-radius: 4px;
+    outline: none;
+    transition: 0.3s;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #8a1715;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.sensors {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.sensor {
+    background:  #8aabaf;
+    padding: 20px;
+    border-radius: 10px;
+    width: 200px;
+    transition: transform 0.3s;
+}
+
+.sensor:hover {
+    transform: scale(1.1);
+}
+
+p {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Estilos para la tabla */
+.table-container {
+    max-width: 90%;
+    margin: 20px auto;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background:#8aabaf;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid white;
+}
+
+th {
+    background: rgba(255, 255, 255, 0.3);
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+tr:hover {
+    background: #8aabaf;
+}
+

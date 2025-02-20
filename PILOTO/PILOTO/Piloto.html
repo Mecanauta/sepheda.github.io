@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sepheda - Telemetría</title>
+    <link rel="stylesheet" href="Piloto.css">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&family=Rubik+Glitch&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1 class="titulo">Sepheda</h1>
+    </header>
+
+    <div class="container">
+        <h2>Control de Velocidad</h2>
+        <input type="range" id="velocid adSlider" min="0" max="100" value="50" oninput="actualizarVelocidad(this.value)">
+        <p>Velocidad: <span id="velocidadValor">50</span>%</p>
+
+        <h2>Telemetría en Tiempo Real</h2>
+        
+        <div class="sensors">
+            <div class="sensor">
+                <img src="icons8-voltage-50.png"></src>
+                <h2>Voltaje</h2>
+                <p id="voltaje">0 V</p>
+            </div>
+            <div class="sensor">
+                <img src="icons8-ground-terminal-100.png" width="70" height="70"></src>
+                <h2>Amperaje</h2>
+                <p id="amperaje">0 A</p>
+            </div>
+            <div class="sensor">
+                <img src="icons8-speedometer-50.png"></src>
+                <h2>RPM</h2>
+                <p id="rpm">0 RPM</p>
+            </div>
+            <div class="sensor">
+                <img src="icons8-wind-gauge-50.png"></src>
+                <h2>Anemómetro</h2>
+                <p id="anemometro">0 m/s</p>
+            </div>
+        </div>
+
+        <h2>Historial de Datos</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Voltaje</th>
+                        <th>Amperaje</th>
+                        <th>RPM</th>
+                        <th>Anemómetro</th>
+                        <th>Fecha y Hora</th>
+                    </tr>
+                </thead>
+                <tbody id="historial">
+                    <!-- Aquí se insertarán los datos dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="Piloto.js"></script>
+</body>
+</html>
