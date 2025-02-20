@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conoce Más - Sepheda Mantenimiento</title>
+    <style>
+        /* Estilos generales */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            min-height: 100vh;
+            background-color: #f9fafb;
+            color: #1f2937;
+            line-height: 1.6;
+        }
+
+        /* Navegación - mismo estilo que la página principal */
+        nav {
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            height: 4rem;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-icon {
+            height: 2rem;
+            width: 2rem;
+            color: #2563eb;
+        }
+
+        .logo-text {
+            margin-left: 0.5rem;
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .desktop-menu {
+            display: flex;
+            align-items: center;
+        }
+
+        .desktop-menu a {
+            margin: 0 1rem;
+            color: #4b5563;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .desktop-menu a:hover {
+            color: #2563eb;
+        }
+
+        .login-btn {
+            background-color: #2563eb;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            border: none;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .user-icon {
+            margin-right: 0.5rem;
+            width: 1rem;
+            height: 1rem;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .mobile-menu {
+            display: none;
+            padding: 0.5rem;
+        }
+
+        .mobile-menu a {
+            display: block;
+            padding: 0.5rem 0.75rem;
+            color: #4b5563;
+            text-decoration: none;
+        }
+
+        /* Estilos para página Conoce Más */
+        .page-header {
+            background: linear-gradient(to right, #2563eb, #1d4ed8);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .page-subtitle {
+            font-size: 1.25rem;
+            color: #bfdbfe;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Secciones de información */
+        .info-section {
+            padding: 4rem 0;
+        }
+
+        .info-section:nth-child(even) {
+            background-color: #f3f4f6;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: #1e40af;
+        }
+
+        .section-content {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .section-text {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .section-text h3 {
+            font-size: 1.5rem;
+            color: #2563eb;
+            margin-bottom: 1rem;
+        }
+
+        .section-text p {
+            margin-bottom: 1rem;
+            color: #4b5563;
+        }
+
+        .section-text ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+            color: #4b5563;
+        }
+
+        .section-image {
+            flex: 1;
+            min-width: 300px;
+            text-align: center;
+        }
+
+        .section-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Sección de especificaciones técnicas */
+        .specs-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+        }
+
+        .specs-table th,
+        .specs-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .specs-table th {
+            background-color: #e5e7eb;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .specs-table tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+
+        /* Sección de equipo */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .team-member {
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+        }
+
+        .member-photo {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .member-info {
+            padding: 1.5rem;
+        }
+
+        .member-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1e40af;
+        }
+
+        .member-role {
+            font-size: 1rem;
+            color: #2563eb;
+            margin-bottom: 1rem;
+        }
+
+        .member-bio {
+            color: #4b5563;
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #1e3a8a;
+            color: white;
+            padding: 2rem 0;
+        }
+        
+        .footer-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+        
+        .footer-column {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: #bfdbfe;
+        }
+        
+        .footer-column p, .footer-column a {
+            color: #e5e7eb;
+            margin-bottom: 0.5rem;
+            display: block;
+            text-decoration: none;
+        }
+        
+        .footer-column a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+        
+        .copyright {
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 0.875rem;
+            color: #bfdbfe;
+        }
+
+        /* Botón de regreso */
+        .back-btn {
+            display: inline-block;
+            background-color: #2563eb;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 2rem;
+            transition: background-color 0.3s;
+        }
+
+        .back-btn:hover {
+            background-color: #1d4ed8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .desktop-menu {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .mobile-menu.active {
+                display: block;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .section-content {
+                flex-direction: column;
+            }
+
+            .team-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navegación -->
+    <nav>
+        <div class="container nav-container">
+            <div class="logo">
+                <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"></path>
+                </svg>
+                <span class="logo-text">Sepheda Mantenimiento</span>
+            </div>
+            
+            <!-- Menú para desktop -->
+            <div class="desktop-menu">
+                <a href="index.html#inicio">Inicio</a>
+                <a href="index.html#quienes-somos">Quiénes Somos</a>
+                <a href="index.html#mision">Misión</a>
+                <a href="index.html#vision">Visión</a>
+                
+                <button class="login-btn">                    
+                    <svg class="user-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    <a href="loggin.html" style="color: white; text-decoration: none;">Iniciar Sesión</a>                           
+                </button>                
+            </div>
+
+            <!-- Botón menú móvil -->
+            <button class="mobile-menu-btn" id="menuToggle">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Menú móvil -->
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="index.html#inicio">Inicio</a>
+            <a href="index.html#quienes-somos">Quiénes Somos</a>
+            <a href="index.html#mision">Misión</a>
+            <a href="index.html#vision">Visión</a>
+            <a href="loggin.html">Iniciar Sesión</a>
+        </div>
+    </nav>
+
+    <!-- Encabezado de página -->
+    <header class="page-header">
+        <div class="container">
+            <h1 class="page-title">Tecnología de Vanguardia en Energía Eólica</h1>
+            <p class="page-subtitle">Descubre cómo nuestras soluciones de mantenimiento predictivo maximizan el rendimiento de las turbinas LIAM F1</p>
+        </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <main>
+        <!-- Sección de Información de la Empresa -->
+        <section id="empresa" class="info-section">
+            <div class="container">
+                <h2 class="section-title">Sobre Sepheda Mantenimiento</h2>
+                <div class="section-content">
+                    <div class="section-text">
+                        <h3>Líderes en Mantenimiento Predictivo</h3>
+                        <p>Fundada en 2020, Sepheda Mantenimiento ha revolucionado el sector del mantenimiento de turbinas eólicas implementando tecnologías de vanguardia y algoritmos de inteligencia artificial para predecir fallos antes de que ocurran.</p>
+                        <p>Nos especializamos exclusivamente en las turbinas LIAM F1 de The Archimedes, habiendo desarrollado modelos predictivos específicos que nos permiten:</p>
+                        <ul>
+                            <li>Reducir el tiempo de inactividad en un 78%</li>
+                            <li>Aumentar la eficiencia energética un 23%</li>
+                            <li>Extender la vida útil de las turbinas un 35%</li>
+                            <li>Disminuir los costos de mantenimiento hasta en un 42%</li>
+                        </ul>
+                        <p>Contamos con certificaciones ISO 9001, ISO 14001 y la certificación específica del fabricante The Archimedes para el mantenimiento oficial de sus turbinas.</p>
+                    </div>
+                    <div class="section-image">
+                        <img src="/api/placeholder/500/350" alt="Sede central de Sepheda Mantenimiento" />
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Información sobre LIAM F1 -->
+        <section id="liam-f1" class="info-section">
+            <div class="container">
+                <h2 class="section-title">The Archimedes LIAM F1</h2>
+                <div class="section-content">
+                    <div class="section-image">
+                        <img src="/api/placeholder/500/350" alt="Turbina LIAM F1 en funcionamiento" />
+                    </div>
+                    <div class="section-text">
+                        <h3>Revolución en Energía Eólica Urbana</h3>
+                        <p>La turbina LIAM F1 (Liam's Innovative Archimedes Model) desarrollada por The Archimedes representa un avance revolucionario en la energía eólica a pequeña escala. Su diseño se basa en el principio del tornillo de Arquímedes, permitiendo una captura de energía eólica mucho más eficiente que las turbinas convencionales.</p>
+                        <p>Esta turbina única cuenta con palas en forma de espiral cónica que canalizan el viento hacia el centro, aumentando la velocidad y generando hasta un 80% más de energía que las turbinas tradicionales de tamaño similar.</p>
+                        <p>Especialmente diseñada para entornos urbanos, la LIAM F1 funciona eficientemente con vientos multidireccionales, genera mínimo ruido (menos de 35dB) y es segura para aves y murciélagos debido a su geometría y velocidad de rotación controlada.</p>
+                    </div>
+                </div>
+                
+                <!-- Tabla de Especificaciones Técnicas -->
+                <h3 style="text-align: center; margin-top: 3rem; color: #2563eb;">Especificaciones Técnicas</h3>
+                <table class="specs-table">
+                    <tr>
+                        <th>Característica</th>
+                        <th>Especificación</th>
+                    </tr>
+                    <tr>
+                        <td>Diámetro</td>
+                        <td>1.5 metros</td>
+                    </tr>
+                    <tr>
+                        <td>Capacidad nominal</td>
+                        <td>1.5 kW a 12 m/s</td>
+                    </tr>
+                    <tr>
+                        <td>Velocidad de arranque</td>
+                        <td>2 m/s</td>
+                    </tr>
+                    <tr>
+                        <td>Velocidad máxima operativa</td>
+                        <td>17 m/s</td>
+                    </tr>
+                    <tr>
+                        <td>Producción anual estimada</td>
+                        <td>2,500 kWh (con viento promedio de 5 m/s)</td>
+                    </tr>
+                    <tr>
+                        <td>Peso</td>
+                        <td>75 kg</td>
+                    </tr>
+                    <tr>
+                        <td>Nivel de ruido</td>
+                        <td>&lt; 35 dB a 5 m/s</td>
+                    </tr>
+                    <tr>
+                        <td>Vida útil estimada</td>
+                        <td>20 años</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+
+        <!-- Sección de Tecnología y Mantenimiento Predictivo -->
+        <section id="tecnologia" class="info-section">
+            <div class="container">
+                <h2 class="section-title">Tecnología de Mantenimiento Predictivo</h2>
+                <div class="section-content">
+                    <div class="section-text">
+                        <h3>Innovación en Monitoreo y Análisis</h3>
+                        <p>Nuestro sistema de mantenimiento predictivo para las turbinas LIAM F1 emplea sensores avanzados IoT que monitorizan en tiempo real más de 50 parámetros críticos, incluyendo:</p>
+                        <ul>
+                            <li>Vibraciones multiespectrales en las palas y estructura</li>
+                            <li>Temperatura en componentes críticos</li>
+                            <li>Análisis acústico de patrones anómalos</li>
+                            <li>Eficiencia de generación respecto a condiciones del viento</li>
+                            <li>Resistencia aerodinámica y desgaste estructural</li>
+                        </ul>
+                        <p>Los datos son procesados por nuestros algoritmos de machine learning, entrenados con más de 5 millones de horas de operación de turbinas LIAM F1 en diversos entornos. Esto nos permite detectar anomalías hasta 3 semanas antes de que se conviertan en fallas, programando mantenimientos preventivos que minimizan el tiempo de inactividad.</p>
+                    </div>
+                    <div class="section-image">
+                        <img src="/api/placeholder/500/350" alt="Sistema de monitoreo predictivo" />
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Beneficios y Resultados -->
+        <section id="beneficios" class="info-section">
+            <div class="container">
+                <h2 class="section-title">Beneficios de Nuestro Servicio</h2>
+                <div class="section-content">
+                    <div class="section-image">
+                        <img src="/api/placeholder/500/350" alt="Gráfico de mejora de rendimiento" />
+                    </div>
+                    <div class="section-text">
+                        <h3>Resultados Comprobados</h3>
+                        <p>Nuestro enfoque de mantenimiento predictivo especializado en turbinas LIAM F1 ha demostrado resultados excepcionales en más de 500 instalaciones:</p>
+                        <ul>
+                            <li><strong>Incremento del 23% en la generación energética</strong> mediante optimización continua basada en datos</li>
+                            <li><strong>Reducción del 78% en tiempo de inactividad</strong> gracias a la detección temprana de problemas potenciales</li>
+                            <li><strong>Extensión de la vida útil en un 35%</strong> mediante mantenimiento preventivo personalizado</li>
+                            <li><strong>ROI promedio de 237%</strong> en el primer año de implementación del sistema</li>
+                            <li><strong>Reducción de costos operativos del 42%</strong> comparado con mantenimientos reactivos o programados</li>
+                        </ul>
+                        <p>Ofrecemos un plan de mantenimiento adaptado a las condiciones específicas de su instalación, con informes detallados mensuales y acceso a nuestra plataforma de monitoreo en tiempo real.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Equipo (al final, como solicitado) -->
+        <section id="equipo" class="info-section">
+            <div class="container">
+                <h2 class="section-title">Nuestro Equipo</h2>
+                <p style="text-align: center; max-width: 800px; margin: 0 auto 2rem; color: #4b5563;">
+                    Contamos con profesionales especializados en mantenimiento de turbinas eólicas,
+                    análisis de datos y desarrollo de soluciones predictivas.
+                </p>
+                
+                <div class="team-grid">
+                    <!-- Miembro 1 -->
+                    <div class="team-member">
+                        <img src="/api/placeholder/400/400" alt="Foto de María Rodríguez" class="member-photo">
+                        <div class="member-info">
+                            <h3 class="member-name">Nicolas Machado</h3>
+                            <p class="member-role">Director de Operaciones</p>
+                            <p class="member-bio">
+                                Ingeniera Mecatronico con especialización en energía eólica. 15 años de experiencia en el sector. 
+                                Anteriormente trabajó como consultora para The Archimedes durante el desarrollo de LIAM F1.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Miembro 2 -->
+                    <div class="team-member">
+                        <img src="/api/placeholder/400/400" alt="Foto de Carlos Mendoza" class="member-photo">
+                        <div class="member-info">
+                            <h3 class="member-name">Fabian Salinas</h3>
+                            <p class="member-role">Jefe de Mantenimiento</p>
+                            <p class="member-bio">
+                                Ingeniero Mecatronico con maestría en sistemas de energía renovable. Certificado por The Archimedes 
+                                para mantenimiento avanzado de turbinas LIAM F1.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    
+                
+                <div style="text-align: center; margin-top: 3rem;">
+                    <a href="index.html" class="back-btn">Volver a la página principal</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-container">
+            <div class="footer-column">
+                <h3>Contacto</h3>
+                <p><strong>Dirección:</strong> Uni. Militar Nueva Granada, Cra. 11 #101-80, Bogotá</p>
+                <p><strong>Teléfono:</strong> +57 3016327689</p>
+                <p><strong>Email:</strong> info@sephedamantenimiento.com</p>
+                <p><strong>Horario:</strong> Lunes a Viernes 8:00 - 18:00</p>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Enlaces Rápidos</h3>
+                <a href="index.html">Inicio</a>
+                <a href="#empresa">Sobre Nosotros</a>
+                <a href="#liam-f1">LIAM F1</a>
+                <a href="#tecnologia">Tecnología</a>
+                <a href="#equipo">Equipo</a>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2025 Sepheda Mantenimiento. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript para el menú móvil
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.getElementById('menuToggle');
+            const mobileMenu = document.getElementById('mobileMenu');
+            
+            menuToggle.addEventListener('click', function() {
+                mobileMenu.classList.toggle('active');
+                
+                // Cambiar el icono cuando se abre/cierra el menú
+                if (mobileMenu.classList.contains('active')) {
+                    // Icono X (cerrar)
+                    menuToggle.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    `;
+                } else {
+                    // Icono de menú (hamburguesa)
+                    menuToggle.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                        </svg>
+                    `;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
