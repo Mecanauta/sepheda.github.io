@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administrador - Sepheda Mantenimiento</title>
+    <link rel="stylesheet" href="css/panel.css">
+</head>
+<body>
+    <!-- Barra de navegación -->
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">
+            <svg class="navbar-logo" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"></path>
+            </svg>
+            Sepheda Mantenimiento
+        </a>
+        
+        <div class="navbar-menu">
+            <a href="#" class="navbar-item">Administrar</a>
+            <a href="#" class="navbar-item">Informes</a>
+            
+            <div class="user-menu">
+                <div class="user-avatar">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </div>
+                <span class="user-name">Administrador</span>
+            </div>
+            
+            <button class="navbar-button" id="logoutBtn">Cerrar sesión</button>
+        </div>
+    </nav>
+    
+    <!-- Contenido principal -->
+    <div class="main-content">
+        <!-- Barra lateral -->
+        <aside class="sidebar">
+            <ul class="sidebar-menu">
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link active">
+                        <svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="14" width="7" height="7"></rect>
+                            <rect x="3" y="14" width="7" height="7"></rect>
+                        </svg>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                        Clientes
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="8.5" cy="7" r="4"></circle>
+                            <line x1="20" y1="8" x2="20" y2="14"></line>
+                            <line x1="23" y1="11" x2="17" y2="11"></line>
+                        </svg>
+                        Técnicos
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"></path>
+                        </svg>
+                        Turbinas
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                            <polyline points="10 9 9 9 8 9"></polyline>
+                        </svg>
+                        Informes
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                        </svg>
+                        Estadísticas
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                        </svg>
+                        Configuración
+                    </a>
+                </li>
+            </ul>
+        </aside>
+        
+        <!-- Panel principal -->
+        <main class="panel-container">
+            <div class="panel-header">
+                <h1 class="panel-title">Dashboard de Administración</h1>
+                <div>
+                    <button class="btn btn-secondary">
+                        <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                        Reportes Mensuales
+                    </button>
+                    <button class="btn btn-primary">
+                        <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        Nuevo Usuario
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Resumen general -->
+            <div class="dashboard-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Clientes Activos</h2>
+                        <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                    </div>
+                    <div class="card-value">15</div>
+                    <div class="card-label">Clientes en total</div>
+                    <div class="card-trend trend-up">
+                        <svg class="trend-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="18 15 12 9 6 15"></polyline>
+                        </svg>
+                        2 nuevos este mes
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Turbinas Instaladas</h2>
+                        <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"></path>
+                        </svg>
+                    </div>
+                    <div class="card-value">42</div>
+                    <div class="card-label">Turbinas LIAM F1</div>
+                    <div class="card-trend">
+                        40 activas, 2 en mantenimiento
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Producción Total</h2>
+                        <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 20V10"></path>
+                            <path d="M12 20V4"></path>
+                            <path d="M6 20v-6"></path>
+                        </svg>
+                    </div>
+                    <div class="card-value">84,532 kWh</div>
+                    <div class="card-label">Producción mensual</div>
+                    <div class="card-trend trend-up">
+                        <svg class="trend-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="18 15 12 9 6 15"></polyline>
+                        </svg>
+                        12.3% respecto al mes anterior
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Gráficos estadísticos -->
+            <div class="chart-container">
+                <h2 class="card-title">Rendimiento Global</h2>
+                <div style="width: 100%; height: 320px; background-color: #f3f4f6; display: flex; align-items: center; justify-content: center; border-radius: 4px; margin-top: 1rem;">
+                    <p>Gráfico de producción energética por cliente</p>
+                    <!-- Aquí se insertaría el gráfico real con JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Tabla de usuarios -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Gestión de Usuarios</h2>
+                    <button class="btn btn-primary">
+                        <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        Añadir Usuario
+                    </button>
+                </div>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Tipo</th>
+                            <th>Estado</th>
+                            <th>Última Conexión</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#U-1001</td>
+                            <td>Nicolás Machado</td>
+                            <td>nicolas@sepheda.com</td>
+                            <td>Administrador</td>
+                            <td>
+                                <span class="status-badge status-online">Activo</span>
+                            </td>
+                            <td>Hoy, 12:45</td>
+                            <td>
+                                <button class="btn btn-secondary">
+                                    <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                    </svg>
+                                    Editar
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#U-1002</td>
+                            <td>Fabián Salinas</td>
+                            <td>fabian@sepheda.com</td>
+                            <td>Técnico</td>
+                            <td>
+                                <span class="status-badge status-online">Activo</span>
+                            </td>
+                            <td>Hoy, 10:23</td>
+                            <td>
+                                <button class="btn btn-secondary">
+                                    <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                    </svg>
+                                    Editar
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#U-1003</td>
+                            <td>Laura Alonso</td>
+                            <td>laura@sepheda.com</td>
+                            <td>Técnico</td>
+                            <td>
+                                <span class="status-badge status-maintenance">Inactivo</span>
+                            </td>
+                            <td>Ayer, 16:08</td>
+                            <td>
+                                <button class="btn btn-secondary">
+                                    <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                    </svg>
+                                    Editar
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#U-1004</td>
+                            <td>Corporación Energía Verde</td>
+                            <td>contacto@energiaverde.com</td>
+                            <td>Cliente</td>
+                            <td>
+                                <span class="status-badge status-online">Activo</span>
+                            </td>
+                            <td>Hoy, 09:17</td>
+                            <td>
+                                <button class="btn btn-secondary">
+                                    <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                    </svg>
+                                    Editar
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Asignar tareas -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Asignar Tareas</h2>
+                </div>
+                
+                <form id="taskForm">
+                    <div class="form-group">
+                        <label for="technician" class="form-label">Técnico</label>
+                        <select id="technician" class="form-select">
+                            <option value="">Seleccionar técnico</option>
+                            <option value="1">Fabián Salinas</option>
+                            <option value="2">Laura Alonso</option>
+                            <option value="3">Julian Serrano</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="client" class="form-label">Cliente</label>
+                        <select id="client" class="form-select">
+                            <option value="">Seleccionar cliente</option>
+                            <option value="1">Corporación Energía Verde</option>
+                            <option value="2">EcoPower Solutions</option>
+                            <option value="3">Soluciones Renovables SA</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="turbine" class="form-label">Turbina</label>
+                        <select id="turbine" class="form-select">
+                            <option value="">Seleccionar turbina</option>
+                            <option value="LIAM-F1-001">LIAM-F1-001</option>
+                            <option value="LIAM-F1-002">LIAM-F1-002</option>
+                            <option value="LIAM-F1-007">LIAM-F1-007</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="taskType" class="form-label">Tipo de tarea</label>
+                        <select id="taskType" class="form-select">
+                            <option value="">Seleccionar tipo</option>
+                            <option value="rutinario">Mantenimiento rutinario</option>
+                            <option value="preventivo">Mantenimiento preventivo</option>
+                            <option value="correctivo">Mantenimiento correctivo</option>
+                            <option value="instalacion">Instalación</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="taskDate" class="form-label">Fecha programada</label>
+                        <input type="date" id="taskDate" class="form-input" />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="taskDetails" class="form-label">Detalles de la tarea</label>
+                        <textarea id="taskDetails" class="form-textarea" placeholder="Ingrese los detalles de la tarea..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Asignar Tarea</button>
+                        <button type="button" class="btn btn-secondary">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+    
+    <script>
+        // JavaScript básico para manejar la funcionalidad
+        document.addEventListener('DOMContentLoaded', function() {
+            // Manejar el botón de cerrar sesión
+            document.getElementById('logoutBtn').addEventListener('click', function() {
+                // Redireccionar al login
+                window.location.href = 'loggin.html';
+            });
+            
+            // Manejar el formulario de asignación de tareas
+            document.getElementById('taskForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Tarea asignada correctamente');
+                // Aquí iría la lógica para asignar la tarea
+            });
+        });
+    </script>
+</body>
+</html>

@@ -4,8 +4,203 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sepheda Mantenimiento</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/index.css">
+    <style>
+        /* Estilos generales */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            min-height: 100vh;
+            background-color: #f9fafb;
+        }
+
+        /* Navegación */
+        nav {
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            height: 4rem;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-icon {
+            height: 2rem;
+            width: 2rem;
+            color: #2563eb;
+        }
+
+        .logo-text {
+            margin-left: 0.5rem;
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .desktop-menu {
+            display: flex;
+            align-items: center;
+        }
+
+        .desktop-menu a {
+            margin: 0 1rem;
+            color: #4b5563;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .desktop-menu a:hover {
+            color: #2563eb;
+        }
+
+        .login-btn {
+            background-color: #2563eb;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            border: none;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .user-icon {
+            margin-right: 0.5rem;
+            width: 1rem;
+            height: 1rem;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .mobile-menu {
+            display: none;
+            padding: 0.5rem;
+        }
+
+        .mobile-menu a {
+            display: block;
+            padding: 0.5rem 0.75rem;
+            color: #4b5563;
+            text-decoration: none;
+        }
+
+        /* Hero section */
+        .hero {
+            padding: 5rem 0;
+            background: linear-gradient(to right, #2563eb, #1d4ed8);
+            color: white;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: #bfdbfe;
+            margin-bottom: 2rem;
+        }
+
+        .cta-btn {
+            background-color: white;
+            color: #2563eb;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            border-radius: 0.375rem;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .cta-btn:hover {
+            background-color: #eff6ff;
+        }
+
+        /* Hero2 section */
+        .hero2 {
+            padding: 5rem 0;
+            background: linear-gradient(to right, #2563eb, #1d4ed8);
+            color: white;
+            text-align: center;
+        }
+
+        .hero2-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero2-parragraph {
+            max-width: 48rem;
+            margin: 0 auto;
+            text-align: center;
+            color: white;
+        }
+
+
+        /* Sección Quiénes Somos */
+        .section {
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            font-size: 1.875rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-content {
+            max-width: 48rem;
+            margin: 0 auto;
+            text-align: center;
+            color: #4b5563;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .desktop-menu {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .mobile-menu.active {
+                display: block;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Navegación -->
@@ -27,13 +222,15 @@
                 <a href="#vision">Visión</a>
                 
                 <button class="login-btn">                    
-                    <!-- Icono de usuario SVG -->                    
+                    <!-- Icono de usuario SVG -->
+                    <a href="loggin.html">
                     <svg class="user-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
                         <circle cx="12" cy="7" r="4"></circle>
                         
                     </svg>
-                    <a href="loggin.html" style="color: white; text-decoration: none;">Iniciar Sesión</a>                               
+                    Iniciar Sesión    
+                    </a>                            
                 </button>                
             </div>
 
@@ -61,7 +258,7 @@
     <!-- Contenido principal -->
     <main>
         <!-- Hero Section -->
-        <section class="hero" id="inicio">
+        <section class="hero">
             <div class="container">
                 <h1 class="hero-title">
                     Mantenimiento Predictivo de Turbinas Eólicas
@@ -70,9 +267,7 @@
                     Monitoreo avanzado y mantenimiento predictivo para turbinas LIAM F1
                 </p>
                 <button class="cta-btn">
-                    <a href="conocemas.html">
-                        Conoce Más
-                    </a>
+                    Conoce Más
                 </button>
             </div>
         </section>
@@ -92,12 +287,11 @@
         <!-- Sección Mision -->
         <section id="mision" class="section">
             <div class="container">
-                <h2 class="section-title">Misión</h2>
+                <h2 class="section-title">Mision</h2>
                 <p class="section-content">
-                    Proporcionar servicios de mantenimiento de alta calidad para turbinas eólicas,
-                    utilizando tecnologías avanzadas y prácticas innovadoras que aseguren el máximo
-                    rendimiento y durabilidad de los sistemas eólicos de nuestros clientes, contribuyendo
-                    así a un futuro más limpio y sostenible
+                    Somos una empresa líder en el mantenimiento predictivo de turbinas eólicas,
+                    especializados en el modelo LIAM F1. Utilizamos tecnología de punta y análisis
+                    de datos para prevenir fallos y optimizar el rendimiento de sus equipos.
                 </p>
             </div>
         </section>
@@ -105,79 +299,15 @@
         <!-- Sección Vision -->
         <section id="vision" class="hero2">
             <div class="container">
-                <h2 class="section-title">Visión</h2>
-                <p class="hero2-parragraph">
-                    Ser reconocidos como líderes en servicios de mantenimiento de turbinas eólicas, impulsando la
-                    transición hacia fuentes de energía renovable y sostenible, y estableciendo estándares de
-                    excelencia y confiabilidad en la industria
+                <h2 class="section-title">Vision</h2>
+                <p  class="hero2-parragraph">
+                    Somos una empresa líder en el mantenimiento predictivo de turbinas eólicas,
+                    especializados en el modelo LIAM F1. Utilizamos tecnología de punta y análisis
+                    de datos para prevenir fallos y optimizar el rendimiento de sus equipos.
                 </p>
             </div>
         </section>
     </main>
-
-    <!-- Sección de Contacto/Footer -->
-    <footer id="contacto">
-        <div class="container footer-container">
-            <div class="footer-column">
-                <h3>Contacto</h3>
-                <p><strong>Dirección:</strong> Uni. Militar Nueva Granada, Cra. 11 #101-80, Bogotá</p>
-                <p><strong>Teléfono:</strong> +57 3016327689</p>
-                <p><strong>Email:</strong> info@sephedamantenimiento.com</p>
-                <p><strong>Horario:</strong> Lunes a Viernes 8:00 - 18:00</p>
-            </div>
-            
-            <div class="footer-column">
-                <h3>Nuestro Equipo</h3>
-                <p>Ing. Nicolas Machado Amaya</p>
-                <p>Ing. Fabián Salinas</p>
-                <p>Ing. Camilo Guzman</p>    
-                <p>Ing. Laura Alonso</p>
-                <p>Ing. Julian Serrano</p> 
-                <p>Ing. Jaime Bedoya</p>
-                <p>Ing. Julian Lopez</p>
-                <p>Ing. Fiorella Moreno</p>  
-                <p>Ing. Carlos Caviativa</p>   
-                <p>Ing. Juan Plablo Ortiz</p>   
-                <p>Ing. Valeria Tejeiro</p>                  
-            </div>
-            
-            <div class="footer-column">
-                <h3>Enlaces Rápidos</h3>
-                <a href="#inicio">Inicio</a>
-                <a href="#quienes-somos">Quiénes Somos</a>
-                <a href="#mision">Misión</a>
-                <a href="#vision">Visión</a>
-                <a href="#">Servicios</a>
-                <a href="#">Casos de Éxito</a>
-            </div>
-            
-            <div class="footer-column">
-                <h3>Síguenos</h3>
-                <p>Mantente informado sobre las últimas innovaciones en mantenimiento predictivo de turbinas eólicas.</p>
-                <div class="social-icons">
-                    <!-- LinkedIn -->
-                    <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                        <rect x="2" y="9" width="4" height="12"></rect>
-                        <circle cx="4" cy="4" r="2"></circle>
-                    </svg>
-                    
-                    <!-- Twitter -->
-                    <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path>
-                    </svg>
-                    
-                    <!-- Facebook -->
-                    <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-                    </svg>
-                </div>
-            </div>
-        </div>
-        <div class="copyright">
-            <p>© 2025 Sepheda Mantenimiento. Todos los derechos reservados.</p>
-        </div>
-    </footer>
 
     <script>
         // JavaScript para el menú móvil

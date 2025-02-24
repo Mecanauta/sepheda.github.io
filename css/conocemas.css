@@ -1,0 +1,183 @@
+/* Estilos específicos para página Conoce Más */
+.page-header {
+    background: linear-gradient(to right, #2563eb, #1d4ed8);
+    color: white;
+    padding: 3rem 0;
+    text-align: center;
+}
+
+.page-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.page-subtitle {
+    font-size: 1.25rem;
+    color: #bfdbfe;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Secciones de información */
+.info-section {
+    padding: 4rem 0;
+}
+
+.info-section:nth-child(even) {
+    background-color: #f3f4f6;
+}
+
+.section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    text-align: center;
+    color: #1e40af;
+}
+
+.section-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 2rem;
+}
+
+.section-text {
+    flex: 1;
+    min-width: 300px;
+}
+
+.section-text h3 {
+    font-size: 1.5rem;
+    color: #2563eb;
+    margin-bottom: 1rem;
+}
+
+.section-text p {
+    margin-bottom: 1rem;
+    color: #4b5563;
+}
+
+.section-text ul {
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+    color: #4b5563;
+}
+
+.section-image {
+    flex: 1;
+    min-width: 300px;
+    text-align: center;
+}
+
+.section-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Sección de especificaciones técnicas */
+.specs-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+}
+
+.specs-table th,
+.specs-table td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.specs-table th {
+    background-color: #e5e7eb;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.specs-table tr:nth-child(even) {
+    background-color: #f9fafb;
+}
+
+/* Sección de equipo */
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.team-member {
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.team-member:hover {
+    transform: translateY(-5px);
+}
+
+.member-photo {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+
+.member-info {
+    padding: 1.5rem;
+}
+
+.member-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #1e40af;
+}
+
+.member-role {
+    font-size: 1rem;
+    color: #2563eb;
+    margin-bottom: 1rem;
+}
+
+.member-bio {
+    color: #4b5563;
+    font-size: 0.9rem;
+}
+
+/* Botón de regreso */
+.back-btn {
+    display: inline-block;
+    background-color: #2563eb;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.375rem;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 2rem;
+    transition: background-color 0.3s;
+}
+
+.back-btn:hover {
+    background-color: #1d4ed8;
+}
+
+/* Responsive específico */
+@media (max-width: 768px) {
+    .page-title {
+        font-size: 2rem;
+    }
+
+    .section-content {
+        flex-direction: column;
+    }
+
+    .team-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+}

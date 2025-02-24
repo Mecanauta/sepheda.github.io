@@ -4,217 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar Sesión - SEPHEDA</title>
-    <style>
-        /* Estilos generales */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
-        }
-        
-        body {
-            min-height: 100vh;
-            background-color: #f9fafb;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 3rem 1rem;
-        }
-
-        /* Contenedor principal */
-        .login-container {
-            max-width: 28rem;
-            margin: 0 auto;
-            width: 100%;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .title {
-            font-size: 1.875rem;
-            font-weight: 800;
-            color: #1f2937;
-            margin-bottom: 0.5rem;
-        }
-
-        .subtitle {
-            font-size: 0.875rem;
-            color: #6b7280;
-        }
-
-        /* Formulario */
-        .form-container {
-            background-color: white;
-            padding: 2rem;
-            border-radius: 0.5rem;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Selector de tipo de usuario */
-        .user-type-selector {
-            display: flex;
-            margin-bottom: 1.5rem;
-            border: 1px solid #d1d5db;
-            border-radius: 0.375rem;
-            overflow: hidden;
-        }
-
-        .user-type-btn {
-            width: 50%;
-            padding: 0.5rem;
-            font-size: 0.875rem;
-            font-weight: 500;
-            border: none;
-            background-color: white;
-            color: #6b7280;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .user-type-btn:first-child {
-            border-top-left-radius: 0.375rem;
-            border-bottom-left-radius: 0.375rem;
-        }
-
-        .user-type-btn:last-child {
-            border-top-right-radius: 0.375rem;
-            border-bottom-right-radius: 0.375rem;
-        }
-
-        .user-type-btn.active {
-            background-color: #2563eb;
-            color: white;
-        }
-
-        .user-type-btn:hover:not(.active) {
-            color: #4b5563;
-        }
-
-        /* Campos del formulario */
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-label {
-            display: block;
-            font-size: 0.875rem;
-            font-weight: 500;
-            color: #374151;
-            margin-bottom: 0.5rem;
-        }
-
-        .input-container {
-            position: relative;
-        }
-
-        .input-icon {
-            position: absolute;
-            left: 0.75rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #9ca3af;
-            width: 1.25rem;
-            height: 1.25rem;
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 0.5rem 0.75rem 0.5rem 2.5rem;
-            border: 1px solid #d1d5db;
-            border-radius: 0.375rem;
-            font-size: 0.875rem;
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: #2563eb;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-
-        /* Opciones adicionales */
-        .form-options {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .remember-me {
-            display: flex;
-            align-items: center;
-        }
-
-        .checkbox {
-            width: 1rem;
-            height: 1rem;
-            border-radius: 0.25rem;
-            margin-right: 0.5rem;
-            border: 1px solid #d1d5db;
-            appearance: none;
-            cursor: pointer;
-        }
-
-        .checkbox:checked {
-            background-color: #2563eb;
-            border-color: #2563eb;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='white'%3E%3Cpath fill-rule='evenodd' d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z' clip-rule='evenodd'/%3E%3C/svg%3E");
-        }
-
-        .checkbox-label {
-            font-size: 0.875rem;
-            color: #1f2937;
-        }
-
-        .forgot-password {
-            font-size: 0.875rem;
-            font-weight: 500;
-            color: #2563eb;
-            text-decoration: none;
-        }
-
-        .forgot-password:hover {
-            color: #1d4ed8;
-        }
-
-        /* Botón de envío */
-        .submit-btn {
-            width: 100%;
-            background-color: #2563eb;
-            color: white;
-            padding: 0.625rem 1rem;
-            border: none;
-            border-radius: 0.375rem;
-            font-size: 0.875rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        .submit-btn:hover {
-            background-color: #1d4ed8;
-        }
-
-        .submit-btn:focus {
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.4);
-        }
-    </style>
+    <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
-    <header style="text-align: center; margin-bottom: 2rem;">
-        <a href="index.html" style="text-decoration: none; color: #2563eb; font-size: 1.5rem; font-weight: bold;">
-            <svg style="height: 2rem; width: 2rem; display: inline-block; vertical-align: middle; margin-right: 0.5rem;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"></path>
-            </svg>
-            Sepheda Mantenimiento
-        </a>
-    </header>
-
     <div class="login-container">
         <div class="header">
             <h1 class="title">Iniciar Sesión</h1>
@@ -222,9 +14,10 @@
         </div>
 
         <div class="form-container">
-            <!-- Selector de tipo de usuario -->
+            <!-- Selector de tipo de usuario con 3 opciones -->
             <div class="user-type-selector">
                 <button type="button" class="user-type-btn active" id="clienteBtn">Cliente</button>
+                <button type="button" class="user-type-btn" id="tecnicoBtn">Técnico</button>
                 <button type="button" class="user-type-btn" id="adminBtn">Administrador</button>
             </div>
 
@@ -282,20 +75,34 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const clienteBtn = document.getElementById('clienteBtn');
+            const tecnicoBtn = document.getElementById('tecnicoBtn');
             const adminBtn = document.getElementById('adminBtn');
             const loginForm = document.getElementById('loginForm');
             let userType = 'cliente'; // Valor predeterminado
             
-            // Cambiar entre tipo de usuario
-            clienteBtn.addEventListener('click', function() {
-                clienteBtn.classList.add('active');
+            // Función para resetear todos los botones
+            function resetButtons() {
+                clienteBtn.classList.remove('active');
+                tecnicoBtn.classList.remove('active');
                 adminBtn.classList.remove('active');
+            }
+            
+            // Cambiar entre tipos de usuario
+            clienteBtn.addEventListener('click', function() {
+                resetButtons();
+                clienteBtn.classList.add('active');
                 userType = 'cliente';
             });
             
+            tecnicoBtn.addEventListener('click', function() {
+                resetButtons();
+                tecnicoBtn.classList.add('active');
+                userType = 'tecnico';
+            });
+            
             adminBtn.addEventListener('click', function() {
+                resetButtons();
                 adminBtn.classList.add('active');
-                clienteBtn.classList.remove('active');
                 userType = 'admin';
             });
             
@@ -304,14 +111,44 @@
                 e.preventDefault();
                 const email = document.getElementById('email').value;
                 const password = document.getElementById('password').value;
-                console.log('Iniciando sesión como:', userType);
-                console.log('Email:', email);
-                console.log('Password:', password);
                 
-                // Aquí iría la lógica de autenticación
-                // Por ahora, solo mostramos un alert
-                alert(`Intento de inicio de sesión como ${userType}\nEmail: ${email}`);
+                // Simulamos una validación simple (en producción esto se haría con una API o backend)
+                if (validarCredenciales(email, password, userType)) {
+                    // Redireccionar según el tipo de usuario
+                    switch(userType) {
+                        case 'cliente':
+                            window.location.href = 'panel-cliente.html';
+                            break;
+                        case 'tecnico':
+                            window.location.href = 'panel-tecnico.html';
+                            break;
+                        case 'admin':
+                            window.location.href = 'panel-admin.html';
+                            break;
+                    }
+                } else {
+                    alert('Credenciales incorrectas. Por favor, inténtelo de nuevo.');
+                }
             });
+            
+            // Función de validación simple (simulada)
+            // En un entorno real, esto se haría mediante una llamada a un servidor
+            function validarCredenciales(email, password, tipo) {
+                // Para fines de demostración, vamos a aceptar cualquier correo que termine con @sepheda.com
+                // y cualquier contraseña con al menos 6 caracteres
+                // Usuarios de prueba para demostración:
+                const usuariosValidos = {
+                    'cliente': { email: 'cliente@sepheda.com', password: '123456' },
+                    'tecnico': { email: 'tecnico@sepheda.com', password: '123456' },
+                    'admin': { email: 'admin@sepheda.com', password: '123456' }
+                };
+                
+                // Para demo, permitimos estos usuarios específicos o cualquier correo @sepheda.com con contraseña mayor a 5 caracteres
+                return (
+                    (email === usuariosValidos[tipo].email && password === usuariosValidos[tipo].password) ||
+                    (email.endsWith('@sepheda.com') && password.length >= 6)
+                );
+            }
         });
     </script>
 </body>

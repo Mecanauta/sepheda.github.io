@@ -1,0 +1,161 @@
+/* Estilos generales compartidos entre todas las páginas */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background-color: #f9fafb;
+    color: #1f2937;
+    line-height: 1.6;
+}
+
+/* Navegación común */
+nav {
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    height: 4rem;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo-icon {
+    height: 2rem;
+    width: 2rem;
+    color: #2563eb;
+}
+
+.logo-text {
+    margin-left: 0.5rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.desktop-menu {
+    display: flex;
+    align-items: center;
+}
+
+.desktop-menu a {
+    margin: 0 1rem;
+    color: #4b5563;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.desktop-menu a:hover {
+    color: #2563eb;
+}
+
+.login-btn {
+    background-color: #2563eb;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    border: none;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.user-icon {
+    margin-right: 0.5rem;
+    width: 1rem;
+    height: 1rem;
+}
+
+.mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.mobile-menu {
+    display: none;
+    padding: 0.5rem;
+}
+
+.mobile-menu a {
+    display: block;
+    padding: 0.5rem 0.75rem;
+    color: #4b5563;
+    text-decoration: none;
+}
+
+/* Footer / Contacto común */
+footer {
+    background-color: #1e3a8a;
+    color: white;
+    padding: 2rem 0;
+}
+
+.footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+.footer-column {
+    flex: 1;
+    min-width: 200px;
+}
+
+.footer-column h3 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: #bfdbfe;
+}
+
+.footer-column p, .footer-column a {
+    color: #e5e7eb;
+    margin-bottom: 0.5rem;
+    display: block;
+    text-decoration: none;
+}
+
+.footer-column a:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+.copyright {
+    margin-top: 2rem;
+    text-align: center;
+    font-size: 0.875rem;
+    color: #bfdbfe;
+}
+
+/* Responsive común */
+@media (max-width: 768px) {
+    .desktop-menu {
+        display: none;
+    }
+
+    .mobile-menu-btn {
+        display: block;
+    }
+
+    .mobile-menu.active {
+        display: block;
+    }
+}

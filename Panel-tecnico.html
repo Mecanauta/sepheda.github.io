@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Técnico - Sepheda Mantenimiento</title>
+    <link rel="stylesheet" href="css/panel.css">
+</head>
+<body>
+    <!-- Barra de navegación -->
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">
+            <svg class="navbar-logo" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"></path>
+            </svg>
+            Sepheda Mantenimiento
+        </a>
+        
+        <div class="navbar-menu">
+            <a href="#" class="navbar-item">Ayuda</a>
+            <a href="#" class="navbar-item">Contacto</a>
+            
+            <div class="user-menu">
+                <div class="user-avatar">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </div>
+                <span class="user-name">Técnico</span>
+            </div>
+            
+            <button class="navbar-button" id="logoutBtn">Cerrar sesión</button>
+        </div>
+    </nav>
+    
+    <!-- Contenido principal -->
+    <div class="main-content">
+        <!-- Barra lateral -->
+        <aside class="sidebar">
+            <ul class="sidebar-menu">
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link active">
+                        <svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="14" width="7" height="7"></rect>
+                            <rect x="3" y="14" width="7" height="7"></rect>
+                        </svg>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
+                        Mantenimientos
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                        </svg>
+                        Monitoreo
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                            <polyline points="10 9 9 9 8 9"></polyline>
+                        </svg>
+                        Informes
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                        Clientes
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="17" x2="12" y2="17"></line>
+                        </svg>
+                        Solicitudes
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                        </svg>
+                        Configuración
+                    </a>
+                </li>
+            </ul>
+        </aside>
+        
+        <!-- Panel principal -->
+        <main class="panel-container">
+            <div class="panel-header">
+                <h1 class="panel-title">Dashboard del Técnico</h1>
+                <div>
+                    <button class="btn btn-secondary">
+                        <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                        Buscar
+                    </button>
+                    <button class="btn btn-primary">
+                        <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        Nuevo informe
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Resumen de trabajo -->
+            <div class="dashboard-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Órdenes de trabajo</h2>
+                        <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
+                    </div>
+                    <div class="card-value">8</div>
+                    <div class="card-label">Tareas pendientes</div>
+                    <div class="card-trend">
+                        4 programadas para hoy
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Alertas</h2>
+                        <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                            <line x1="12" y1="9" x2="12" y2="13"></line>
+                            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                        </svg>
+                    </div>
+                    <div class="card-value">2</div>
+                    <div class="card-label">Alertas activas</div>
+                    <div class="card-trend trend-down">
+                        <svg class="trend-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                        50% menos que la semana pasada
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Turbinas Monitoreadas</h2>
+                        <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"></path>
+                        </svg>
+                    </div>
+                    <div class="card-value">12</div>
+                    <div class="card-label">Turbinas activas</div>
+                    <div class="card-trend">
+                        11 funcionando, 1 en mantenimiento
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tabla de tareas pendientes -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Tareas Pendientes</h2>
+                    <button class="btn btn-secondary">Ver todas</button>
+                </div>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Cliente</th>
+                            <th>Turbina</th>
+                            <th>Tipo</th>
+                            <th>Estado</th>
+                            <th>Fecha Programada</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#MT-1025</td>
+                            <td>Corporación Energía Verde</td>
+                            <td>LIAM-F1-002</td>
+                            <td>Mantenimiento rutinario</td>
+                            <td>
+                                <span class="status-badge status-maintenance">Programado</span>
+                            </td>
+                            <td>Feb 24, 2025</td>
+                            <td>
+                                <button class="btn btn-secondary">
+                                    <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                    </svg>
+                                    Iniciar
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#MT-1024</td>
+                            <td>EcoPower Solutions</td>
+                            <td>LIAM-F1-007</td>
+                            <td>Revisión vibraciones</td>
+                            <td>
+                                <span class="status-badge status-online">En proceso</span>
+                            </td>
+                            <td>Feb 24, 2025</td>
+                            <td>
+                                <button class="btn btn-success">
+                                    <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                                    </svg>
+                                    Completar
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#MT-1023</td>
+                            <td>Soluciones Renovables SA</td>
+                            <td>LIAM-F1-015</td>
+                            <td>Mantenimiento preventivo</td>
+                            <td>
+                                <span class="status-badge status-maintenance">Programado</span>
+                            </td>
+                            <td>Feb 25, 2025</td>
+                            <td>
+                                <button class="btn btn-secondary">
+                                    <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                    </svg>
+                                    Iniciar
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Formulario para crear informes -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Crear Nuevo Informe</h2>
+                </div>
+                
+                <form id="reportForm">
+                    <div class="form-group">
+                        <label for="cliente" class="form-label">Cliente</label>
+                        <select id="cliente" class="form-select">
+                            <option value="">Seleccionar cliente</option>
+                            <option value="1">Corporación Energía Verde</option>
+                            <option value="2">EcoPower Solutions</option>
+                            <option value="3">Soluciones Renovables SA</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="turbina" class="form-label">Turbina</label>
+                        <select id="turbina" class="form-select">
+                            <option value="">Seleccionar turbina</option>
+                            <option value="LIAM-F1-001">LIAM-F1-001</option>
+                            <option value="LIAM-F1-002">LIAM-F1-002</option>
+                            <option value="LIAM-F1-007">LIAM-F1-007</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="tipo" class="form-label">Tipo de informe</label>
+                        <select id="tipo" class="form-select">
+                            <option value="">Seleccionar tipo</option>
+                            <option value="rutinario">Mantenimiento rutinario</option>
+                            <option value="preventivo">Mantenimiento preventivo</option>
+                            <option value="correctivo">Mantenimiento correctivo</option>
+                            <option value="anomalia">Reporte de anomalía</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="detalles" class="form-label">Detalles</label>
+                        <textarea id="detalles" class="form-textarea" placeholder="Ingrese los detalles del informe..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Generar Informe</button>
+                        <button type="button" class="btn btn-secondary">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+    
+    <script>
+        // JavaScript básico para manejar la funcionalidad
+        document.addEventListener('DOMContentLoaded', function() {
+            // Manejar el botón de cerrar sesión
+            document.getElementById('logoutBtn').addEventListener('click', function() {
+                // Redireccionar al login
+                window.location.href = 'loggin.html';
+            });
+            
+            // Manejar el formulario de informe
+            document.getElementById('reportForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Informe generado correctamente');
+                // Aquí iría la lógica para enviar el informe
+            });
+        });
+    </script>
+</body>
+</html>
