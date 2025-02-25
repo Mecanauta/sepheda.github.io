@@ -1,0 +1,55 @@
+<!-- Modal para añadir/editar usuario -->
+<div id="userModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle">Añadir Usuario</h2>
+        <span class="close">&times;</span>
+      </div>
+      <div class="modal-body">
+        <form id="userForm">
+          <div class="form-group">
+            <label for="userName" class="form-label">Nombre</label>
+            <input type="text" id="userName" class="form-input" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="userEmail" class="form-label">Correo electrónico</label>
+            <input type="email" id="userEmail" class="form-input" required>
+          </div>
+          
+          <div class="form-group" id="passwordGroup">
+            <label for="userPassword" class="form-label">Contraseña</label>
+            <input type="password" id="userPassword" class="form-input" minlength="6">
+            <small class="form-help">Mínimo 6 caracteres. Deja vacío para mantener la contraseña actual al editar.</small>
+          </div>
+          
+          <div class="form-group">
+            <label for="userRole" class="form-label">Rol</label>
+            <select id="userRole" class="form-select" required>
+              <option value="">Seleccionar rol</option>
+              <option value="admin">Administrador</option>
+              <option value="tecnico">Técnico</option>
+              <option value="cliente">Cliente</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="userStatus" class="form-label">Estado</label>
+            <div class="toggle-container">
+              <input type="checkbox" id="userStatus" class="toggle-input" checked>
+              <label for="userStatus" class="toggle-label"></label>
+              <span id="statusText">Activo</span>
+            </div>
+          </div>
+          
+          <input type="hidden" id="userId">
+          <input type="hidden" id="formMode" value="add">
+          
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <button type="button" class="btn btn-secondary" id="cancelUserForm">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>

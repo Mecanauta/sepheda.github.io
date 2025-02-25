@@ -43,10 +43,8 @@ document.addEventListener('DOMContentLoaded', function() {
             // 1. Intentar iniciar sesión con Firebase
             await firebase.auth().signInWithEmailAndPassword(email, password);
             
-            // 2. Obtener el usuario actual
+            // 2. Verificar el rol del usuario
             const usuario = firebase.auth().currentUser;
-            
-            // 3. Consultar el rol del usuario en Firestore
             const userDoc = await firebase.firestore().collection('usuarios').doc(usuario.uid).get();
             
             if (!userDoc.exists) {
@@ -56,16 +54,16 @@ document.addEventListener('DOMContentLoaded', function() {
             const userData = userDoc.data();
             const userRole = userData.rol;
             
-            // 4. Verificar si el rol coincide con el seleccionado
+            // 3. Verificar si el rol coincide con el seleccionado
             if (userRole !== userType) {
-                // Si los roles no coinciden, mostramos un mensaje de error
-                errorElement.textContent = `Has iniciado sesión como ${userRole}, pero seleccionaste ${userType}`;
-                errorElement.style.display = 'block';
+                // Si los roles no coinciden, cerrar sesión y mostrar error
                 await firebase.auth().signOut();
+                errorElement.textContent = `El tipo seleccionado (${userType}) no coincide con tu rol actual (${userRole})`;
+                errorElement.style.display = 'block';
                 return;
             }
             
-            // 5. Redireccionar según el tipo de usuario
+            // 4. Si todo está bien, redireccionar según el rol
             switch(userRole) {
                 case 'cliente':
                     window.location.href = 'panel-cliente.html';
