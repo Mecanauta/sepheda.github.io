@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Cliente - Sepheda Mantenimiento</title>
     <link rel="stylesheet" href="css/panel.css">
+    
+    <!-- Firebase App (la base) -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <!-- Firebase Auth -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+    <!-- Firebase Firestore -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+    
+    <!-- Configuración y funciones de Firebase -->
+    <script src="js/firebase-config.js"></script>
 </head>
 <body>
     <!-- Barra de navegación -->
@@ -120,13 +130,13 @@
                             <path d="M6 20v-6"></path>
                         </svg>
                     </div>
-                    <div class="card-value">1,827 kWh</div>
+                    <div class="card-value" id="produccion-value">1,827 kWh</div>
                     <div class="card-label">Producción mensual</div>
                     <div class="card-trend trend-up">
                         <svg class="trend-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="18 15 12 9 6 15"></polyline>
                         </svg>
-                        8.7% respecto al mes anterior
+                        <span id="produccion-trend">8.7% respecto al mes anterior</span>
                     </div>
                 </div>
                 
@@ -138,13 +148,13 @@
                             <polyline points="12 6 12 12 16 14"></polyline>
                         </svg>
                     </div>
-                    <div class="card-value">87.3%</div>
+                    <div class="card-value" id="eficiencia-value">87.3%</div>
                     <div class="card-label">Eficiencia actual</div>
                     <div class="card-trend trend-up">
                         <svg class="trend-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="18 15 12 9 6 15"></polyline>
                         </svg>
-                        2.1% respecto al mes anterior
+                        <span id="eficiencia-trend">2.1% respecto al mes anterior</span>
                     </div>
                 </div>
                 
@@ -156,18 +166,96 @@
                         </svg>
                     </div>
                     <div class="card-value">
-                        <span class="status-badge status-online">
+                        <span class="status-badge status-online" id="turbina-estado">
                             <span class="status-dot dot-online"></span>
                             Funcionando
                         </span>
                     </div>
-                    <div class="card-label">Última revisión: hace 2 días</div>
-                    <div class="card-trend">
+                    <div class="card-label" id="ultima-revision">Última revisión: hace 2 días</div>
+                    <div class="card-trend" id="proximo-mantenimiento">
                         Próximo mantenimiento: en 28 días
                     </div>
                 </div>
             </div>
             
+            <!-- Sección de Telemetría en Tiempo Real -->
+<div class="card" id="telemetria-container">
+    <div class="card-header">
+        <h2 class="card-title">Telemetría en Tiempo Real</h2>
+        <button class="btn btn-secondary" id="btn-telemetria-fullscreen">
+            <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+            </svg>
+            Ver en pantalla completa
+        </button>
+    </div>
+    
+    <div class="telemetria-grid">
+        <div class="sensor-card">
+            <div class="sensor-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 6v12"></path>
+                    <path d="M19 6v12"></path>
+                    <path d="M5 12h14"></path>
+                </svg>
+            </div>
+            <span class="sensor-label">Voltaje</span>
+            <div class="sensor-value" id="voltaje-value">0 V</div>
+        </div>
+
+        <div class="sensor-card">
+            <div class="sensor-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                </svg>
+            </div>
+            <span class="sensor-label">Amperaje</span>
+            <div class="sensor-value" id="amperaje-value">0 A</div>
+        </div>
+
+        <div class="sensor-card">
+            <div class="sensor-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+            </div>
+            <span class="sensor-label">RPM</span>
+            <div class="sensor-value" id="rpm-value">0 RPM</div>
+        </div>
+
+        <div class="sensor-card">
+            <div class="sensor-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"></path>
+                </svg>
+            </div>
+            <span class="sensor-label">Velocidad del Viento</span>
+            <div class="sensor-value" id="viento-value">0 m/s</div>
+        </div>
+    </div>
+
+    <div class="telemetria-historial">
+        <h3 class="card-subtitle">Historial de Lecturas</h3>
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Voltaje</th>
+                        <th>Amperaje</th>
+                        <th>RPM</th>
+                        <th>Viento</th>
+                        <th>Fecha y Hora</th>
+                    </tr>
+                </thead>
+                <tbody id="telemetria-table-body">
+                    <!-- Aquí se insertarán los datos dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
             <!-- Gráfico de rendimiento -->
             <div class="chart-container">
                 <h2 class="card-title">Rendimiento de la Turbina LIAM F1</h2>
@@ -194,57 +282,10 @@
                             <th>Acciones</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="reportes-table-body">
+                        <!-- Los reportes se cargarán desde Firestore -->
                         <tr>
-                            <td>25 Feb, 2025</td>
-                            <td>Inspección rutinaria</td>
-                            <td>
-                                <span class="status-badge status-online">Completado</span>
-                            </td>
-                            <td>Fabián Salinas</td>
-                            <td>
-                                <button class="btn btn-secondary">
-                                    <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                        <circle cx="12" cy="12" r="3"></circle>
-                                    </svg>
-                                    Ver
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>15 Feb, 2025</td>
-                            <td>Mantenimiento preventivo</td>
-                            <td>
-                                <span class="status-badge status-online">Completado</span>
-                            </td>
-                            <td>Laura Alonso</td>
-                            <td>
-                                <button class="btn btn-secondary">
-                                    <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                        <circle cx="12" cy="12" r="3"></circle>
-                                    </svg>
-                                    Ver
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>5 Feb, 2025</td>
-                            <td>Reporte de anomalía</td>
-                            <td>
-                                <span class="status-badge status-maintenance">Analizado</span>
-                            </td>
-                            <td>Julian Serrano</td>
-                            <td>
-                                <button class="btn btn-secondary">
-                                    <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                        <circle cx="12" cy="12" r="3"></circle>
-                                    </svg>
-                                    Ver
-                                </button>
-                            </td>
+                            <td colspan="5" class="text-center">Cargando reportes...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -252,15 +293,187 @@
         </main>
     </div>
     
+    <!-- Script para cargar datos desde Firestore -->
     <script>
-        // JavaScript básico para manejar la funcionalidad
         document.addEventListener('DOMContentLoaded', function() {
-            // Manejar el botón de cerrar sesión
-            document.getElementById('logoutBtn').addEventListener('click', function() {
-                // Redireccionar al login
-                window.location.href = 'loggin.html';
+            // Verificar autenticación y proteger página
+            firebase.auth().onAuthStateChanged(async (user) => {
+                if (!user) {
+                    // Redirigir al login si no hay usuario autenticado
+                    window.location.href = 'loggin.html';
+                    return;
+                }
+                
+                try {
+                    // Verificar el rol del usuario
+                    const userDoc = await firebase.firestore().collection('usuarios').doc(user.uid).get();
+                    
+                    if (!userDoc.exists) {
+                        throw new Error("No se encontró información de usuario");
+                    }
+                    
+                    const userData = userDoc.data();
+                    
+                    // Verificar que sea un cliente
+                    if (userData.rol !== 'cliente') {
+                        alert('No tienes permiso para acceder a esta página');
+                        window.location.href = 'loggin.html';
+                        return;
+                    }
+                    
+                    // Actualizar nombre de usuario
+                    document.querySelector('.user-name').textContent = userData.nombre || 'Cliente';
+                    
+                    // Cargar datos de turbinas del cliente
+                    await cargarDatosTurbinas(user.uid);
+                    
+                    // Cargar reportes recientes
+                    await cargarReportesRecientes(user.uid);
+                    
+                } catch (error) {
+                    console.error("Error al verificar usuario:", error);
+                    alert("Error al cargar datos de usuario");
+                    window.location.href = 'loggin.html';
+                }
             });
+            
+            // Manejar cierre de sesión
+            document.getElementById('logoutBtn').addEventListener('click', async () => {
+                try {
+                    await firebase.auth().signOut();
+                    window.location.href = 'loggin.html';
+                } catch (error) {
+                    console.error("Error al cerrar sesión:", error);
+                    alert("Error al cerrar sesión");
+                }
+            });
+            
+            // Función para cargar datos de turbinas
+            async function cargarDatosTurbinas(userId) {
+                try {
+                    // Obtener el documento del cliente con sus turbinas asignadas
+                    const clienteDoc = await firebase.firestore().collection('clientes').doc(userId).get();
+                    
+                    if (!clienteDoc.exists) {
+                        console.error("No se encontró información del cliente");
+                        return;
+                    }
+                    
+                    const clienteData = clienteDoc.data();
+                    
+                    // Si hay turbinas asignadas al cliente
+                    if (clienteData.turbinas && clienteData.turbinas.length > 0) {
+                        // Vamos a suponer que mostramos datos de la primera turbina
+                        const turbina = await firebase.firestore().collection('turbinas').doc(clienteData.turbinas[0]).get();
+                        
+                        if (turbina.exists) {
+                            const turbinaData = turbina.data();
+                            
+                            // Actualizar métricas en la UI
+                            document.getElementById('produccion-value').textContent = turbinaData.produccion_mes || '0 kWh';
+                            document.getElementById('produccion-trend').textContent = turbinaData.produccion_tendencia || '0% respecto al mes anterior';
+                            
+                            document.getElementById('eficiencia-value').textContent = turbinaData.eficiencia || '0%';
+                            document.getElementById('eficiencia-trend').textContent = turbinaData.eficiencia_tendencia || '0% respecto al mes anterior';
+                            
+                            // Actualizar estado de la turbina
+                            const estadoElement = document.getElementById('turbina-estado');
+                            if (turbinaData.estado === 'funcionando') {
+                                estadoElement.className = 'status-badge status-online';
+                                estadoElement.innerHTML = '<span class="status-dot dot-online"></span>Funcionando';
+                            } else if (turbinaData.estado === 'mantenimiento') {
+                                estadoElement.className = 'status-badge status-maintenance';
+                                estadoElement.innerHTML = '<span class="status-dot dot-maintenance"></span>En Mantenimiento';
+                            } else {
+                                estadoElement.className = 'status-badge status-offline';
+                                estadoElement.innerHTML = '<span class="status-dot dot-offline"></span>Inactiva';
+                            }
+                            
+                            // Actualizar información adicional
+                            document.getElementById('ultima-revision').textContent = `Última revisión: ${turbinaData.ultima_revision || 'N/A'}`;
+                            document.getElementById('proximo-mantenimiento').textContent = `Próximo mantenimiento: ${turbinaData.proximo_mantenimiento || 'No programado'}`;
+                        }
+                    }
+                } catch (error) {
+                    console.error("Error al cargar datos de turbinas:", error);
+                }
+            }
+            
+            // Función para cargar reportes recientes
+            async function cargarReportesRecientes(userId) {
+                try {
+                    // Consultar reportes del cliente ordenados por fecha
+                    const reportesSnapshot = await firebase.firestore()
+                        .collection('reportes')
+                        .where('cliente_id', '==', userId)
+                        .orderBy('fecha', 'desc')
+                        .limit(5)
+                        .get();
+                    
+                    const tableBody = document.getElementById('reportes-table-body');
+                    
+                    if (reportesSnapshot.empty) {
+                        tableBody.innerHTML = '<tr><td colspan="5" class="text-center">No hay reportes disponibles</td></tr>';
+                        return;
+                    }
+                    
+                    let html = '';
+                    
+                    for (const doc of reportesSnapshot.docs) {
+                        const reporte = doc.data();
+                        
+                        // Determinar la clase de estado
+                        let estadoClass = '';
+                        if (reporte.estado === 'Completado') {
+                            estadoClass = 'status-online';
+                        } else if (reporte.estado === 'En Proceso') {
+                            estadoClass = 'status-maintenance';
+                        } else {
+                            estadoClass = 'status-offline';
+                        }
+                        
+                        // Formatear fecha
+                        const fecha = reporte.fecha ? new Date(reporte.fecha.toDate()).toLocaleDateString('es-ES') : 'N/A';
+                        
+                        // Crear fila de reporte
+                        html += `
+                            <tr>
+                                <td>${fecha}</td>
+                                <td>${reporte.tipo || 'N/A'}</td>
+                                <td>
+                                    <span class="status-badge ${estadoClass}">${reporte.estado || 'N/A'}</span>
+                                </td>
+                                <td>${reporte.tecnico_nombre || 'N/A'}</td>
+                                <td>
+                                    <button class="btn btn-secondary" onclick="verReporte('${doc.id}')">
+                                        <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                            <circle cx="12" cy="12" r="3"></circle>
+                                        </svg>
+                                        Ver
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+                    }
+                    
+                    tableBody.innerHTML = html;
+                    
+                } catch (error) {
+                    console.error("Error al cargar reportes:", error);
+                    document.getElementById('reportes-table-body').innerHTML = '<tr><td colspan="5" class="text-center">Error al cargar reportes</td></tr>';
+                }
+            }
+            
+            // Función para ver un reporte (definida globalmente)
+            window.verReporte = function(reporteId) {
+                alert(`Ver detalles del reporte ${reporteId}`);
+                // Aquí podrías abrir un modal o redireccionar a la página de detalles
+            };
         });
     </script>
+    
+    <!-- Incluir script para protección de ruta -->
+    <script src="js/panel-auth.js"></script>
 </body>
 </html>

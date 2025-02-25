@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Administrador - Sepheda Mantenimiento</title>
     <link rel="stylesheet" href="css/panel.css">
+    
+    <!-- Firebase App (la base) -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <!-- Firebase Auth -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+    <!-- Firebase Firestore -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+    
+    <!-- Configuración y funciones de Firebase -->
+    <script src="js/firebase-config.js"></script>
 </head>
 <body>
     <!-- Barra de navegación -->
@@ -126,7 +136,7 @@
                         </svg>
                         Reportes Mensuales
                     </button>
-                    <button class="btn btn-primary">
+                    <button class="btn btn-primary" id="newUserBtn">
                         <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="12" y1="5" x2="12" y2="19"></line>
                             <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -148,9 +158,9 @@
                             <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                         </svg>
                     </div>
-                    <div class="card-value">15</div>
+                    <div class="card-value" id="clientes-cantidad">15</div>
                     <div class="card-label">Clientes en total</div>
-                    <div class="card-trend trend-up">
+                    <div class="card-trend trend-up" id="clientes-trend">
                         <svg class="trend-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="18 15 12 9 6 15"></polyline>
                         </svg>
@@ -165,9 +175,9 @@
                             <path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"></path>
                         </svg>
                     </div>
-                    <div class="card-value">42</div>
+                    <div class="card-value" id="turbinas-cantidad">42</div>
                     <div class="card-label">Turbinas LIAM F1</div>
-                    <div class="card-trend">
+                    <div class="card-trend" id="turbinas-estado">
                         40 activas, 2 en mantenimiento
                     </div>
                 </div>
@@ -181,9 +191,9 @@
                             <path d="M6 20v-6"></path>
                         </svg>
                     </div>
-                    <div class="card-value">84,532 kWh</div>
+                    <div class="card-value" id="produccion-value">84,532 kWh</div>
                     <div class="card-label">Producción mensual</div>
-                    <div class="card-trend trend-up">
+                    <div class="card-trend trend-up" id="produccion-trend">
                         <svg class="trend-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="18 15 12 9 6 15"></polyline>
                         </svg>
@@ -226,7 +236,8 @@
                             <th>Acciones</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="usuarios-table-body">
+                        <!-- Los usuarios se cargarán desde Firestore -->
                         <tr>
                             <td>#U-1001</td>
                             <td>Nicolás Machado</td>
@@ -237,7 +248,7 @@
                             </td>
                             <td>Hoy, 12:45</td>
                             <td>
-                                <button class="btn btn-secondary">
+                                <button class="btn btn-secondary" onclick="editarUsuario('U-1001')">
                                     <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                                         <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
@@ -256,7 +267,7 @@
                             </td>
                             <td>Hoy, 10:23</td>
                             <td>
-                                <button class="btn btn-secondary">
+                                <button class="btn btn-secondary" onclick="editarUsuario('U-1002')">
                                     <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                                         <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
@@ -275,7 +286,7 @@
                             </td>
                             <td>Ayer, 16:08</td>
                             <td>
-                                <button class="btn btn-secondary">
+                                <button class="btn btn-secondary" onclick="editarUsuario('U-1003')">
                                     <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                                         <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
@@ -294,7 +305,7 @@
                             </td>
                             <td>Hoy, 09:17</td>
                             <td>
-                                <button class="btn btn-secondary">
+                                <button class="btn btn-secondary" onclick="editarUsuario('U-1004')">
                                     <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                                         <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
@@ -374,22 +385,10 @@
         </main>
     </div>
     
-    <script>
-        // JavaScript básico para manejar la funcionalidad
-        document.addEventListener('DOMContentLoaded', function() {
-            // Manejar el botón de cerrar sesión
-            document.getElementById('logoutBtn').addEventListener('click', function() {
-                // Redireccionar al login
-                window.location.href = 'loggin.html';
-            });
-            
-            // Manejar el formulario de asignación de tareas
-            document.getElementById('taskForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                alert('Tarea asignada correctamente');
-                // Aquí iría la lógica para asignar la tarea
-            });
-        });
-    </script>
+    <!-- Script para funcionalidades del panel de administrador -->
+    <script src="js/panel-admin.js"></script>
+    
+    <!-- Incluir script para protección de ruta -->
+    <script src="js/panel-auth.js"></script>
 </body>
 </html>

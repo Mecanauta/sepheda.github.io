@@ -454,3 +454,143 @@ body {
         display: none;
     }
 }
+
+/* Estilos para la sección de telemetría */
+.telemetria-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.sensor-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f9fafb;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.sensor-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.sensor-icon {
+    background-color: #eff6ff;
+    color: #2563eb;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.75rem;
+}
+
+.sensor-icon svg {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.sensor-label {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-bottom: 0.5rem;
+}
+
+.sensor-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.telemetria-historial {
+    margin-top: 2rem;
+}
+
+.card-subtitle {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #4b5563;
+    margin-bottom: 1rem;
+}
+
+/* Versión de pantalla completa */
+.telemetria-fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: white;
+    z-index: 50;
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+.telemetria-fullscreen .telemetria-grid {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 1200px;
+    margin: 2rem auto;
+}
+
+.telemetria-fullscreen .sensor-card {
+    padding: 2rem;
+}
+
+.telemetria-fullscreen .sensor-icon {
+    width: 4rem;
+    height: 4rem;
+}
+
+.telemetria-fullscreen .sensor-icon svg {
+    width: 2rem;
+    height: 2rem;
+}
+
+.telemetria-fullscreen .sensor-value {
+    font-size: 2.5rem;
+}
+
+.telemetria-fullscreen .table-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Botón para cerrar pantalla completa */
+.btn-close-fullscreen {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background-color: #f3f4f6;
+    border: none;
+    border-radius: 50%;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-close-fullscreen:hover {
+    background-color: #e5e7eb;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .telemetria-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .telemetria-grid {
+        grid-template-columns: 1fr;
+    }
+}
