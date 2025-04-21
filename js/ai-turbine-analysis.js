@@ -101,14 +101,14 @@ const TurbineAI = (function() {
                 const randomFactor = 0.8 + (Math.random() * 0.4); // Variación aleatoria 0.8-1.2
                 const seasonalFactor = 1.0; // Podría variar según la temporada
                 
-                const windSpeed = (5 + Math.sin(h/4) * 3) * hourFactor * randomFactor * seasonalFactor;
-                windSpeed = Math.max(2, Math.min(17, windSpeed)); // Limitar a rango 2-17 m/s
+                let windSpeedValue = (5 + Math.sin(h/4) * 3) * hourFactor * randomFactor * seasonalFactor;
+                windSpeedValue = Math.max(2, Math.min(17, windSpeedValue)); // Limitar a rango 2-17 m/s
                 
                 // Encontrar producción según curva de potencia
                 let power = 0;
                 for (let i = 0; i < referenceModels['LIAM-F1'].powerCurve.length; i++) {
                     const point = referenceModels['LIAM-F1'].powerCurve[i];
-                    if (windSpeed <= point.windSpeed) {
+                    if (windSpeedValue <= point.windSpeed) {
                         if (i === 0) {
                             power = point.power;
                         } else {
@@ -116,7 +116,7 @@ const TurbineAI = (function() {
                             const prevPoint = referenceModels['LIAM-F1'].powerCurve[i-1];
                             const windDiff = point.windSpeed - prevPoint.windSpeed;
                             const powerDiff = point.power - prevPoint.power;
-                            const ratio = (windSpeed - prevPoint.windSpeed) / windDiff;
+                            const ratio = (windSpeedValue - prevPoint.windSpeed) / windDiff;
                             power = prevPoint.power + (powerDiff * ratio);
                         }
                         break;
@@ -138,16 +138,16 @@ const TurbineAI = (function() {
                 // Añadir pequeñas variaciones para simular datos reales
                 const voltage = voltageBase * (0.95 + Math.random() * 0.1) * ageFactor;
                 const amperage = amperageBase * (0.95 + Math.random() * 0.1) * ageFactor;
-                const rpm = windSpeed * RPM_WIND_RATIO * (0.95 + Math.random() * 0.1) * ageFactor;
+                const rpm = windSpeedValue * RPM_WIND_RATIO * (0.95 + Math.random() * 0.1) * ageFactor;
                 
                 data.push({
                     timestamp,
-                    windSpeed,
+                    windSpeed: windSpeedValue,
                     voltage,
                     amperage,
                     rpm,
                     power: voltage * amperage / 1000, // kW
-                    efficiency: calculateEfficiency(windSpeed, rpm, voltage, amperage)
+                    efficiency: calculateEfficiency(windSpeedValue, rpm, voltage, amperage)
                 });
                 
                 // Simular ocasionalmente una anomalía
