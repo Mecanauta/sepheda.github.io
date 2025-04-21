@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SepheIA - Asistente Inteligente de Turbinas</title>
+    <link rel="stylesheet" href="css/panel.css">
+    <link rel="stylesheet" href="css/ai-assistant.css">
+    <link rel="stylesheet" href="css/sepheia.css">
+    
+    <!-- Firebase App (la base) -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <!-- Firebase Auth -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+    <!-- Firebase Firestore -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+    
+    <!-- Configuración y funciones de Firebase -->
+    <script src="js/firebase-config.js"></script>
+</head>
+<body>
+    <!-- Barra de navegación -->
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">
+            <svg class="navbar-logo" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"></path>
+            </svg>
+            SepheIA
+        </a>
+        
+        <div class="navbar-menu">
+            <a href="panel-cliente.html" class="navbar-item">Volver al Panel</a>
+            <a href="#" class="navbar-item">Ayuda</a>
+            
+            <div class="user-menu">
+                <div class="user-avatar">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </div>
+                <span class="user-name">Cliente</span>
+            </div>
+            
+            <button class="navbar-button" id="logoutBtn">Cerrar sesión</button>
+        </div>
+    </nav>
+    
+    <!-- Contenido principal -->
+    <div class="sepheia-container">
+        <div class="sepheia-header">
+            <h1 class="sepheia-title">SepheIA - Tu Asistente Inteligente para Turbinas</h1>
+            <p class="sepheia-subtitle">Análisis predictivo y recomendaciones personalizadas para optimizar el rendimiento de tus turbinas eólicas</p>
+        </div>
+        
+        <!-- Contenedor principal del asistente -->
+        <div id="ai-assistant-container" class="ai-assistant">
+            <!-- El contenido se generará dinámicamente -->
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="js/ai-turbine-analysis.js"></script>
+    <script src="js/sepheia.js"></script>
+</body>
+</html>

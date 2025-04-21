@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Cliente - Sepheda Mantenimiento</title>
     <link rel="stylesheet" href="css/panel.css">
-    <link rel="stylesheet" href="css/ai-assistant.css">
+    <!--<link rel="stylesheet" href="css/ai-assistant.css">-->
+    <link rel="stylesheet" href="css/sepheia.css">
     
 
     <script src="js/panel-auth.js"></script>
@@ -53,7 +54,7 @@
         </div>
     </nav>
     
-    <!-- Contenido principal -->
+    <!-- Contenido principal -->    
     <div class="main-content">
         <!-- Barra lateral -->
         <aside class="sidebar">
@@ -118,14 +119,24 @@
         <main class="panel-container">
             <div class="panel-header">
                 <h1 class="panel-title">Dashboard del Cliente</h1>
-                <button class="btn btn-primary">
-                    <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                        <polyline points="7 10 12 15 17 10"></polyline>
-                        <line x1="12" y1="15" x2="12" y2="3"></line>
-                    </svg>
-                    Descargar informe
-                </button>
+                <div class="panel-actions">
+                    <button class="btn btn-primary sepheia-btn" onclick="window.open('sepheia.html', '_blank')">
+                        <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                            <line x1="12" y1="17" x2="12" y2="17"></line>
+                        </svg>
+                        Abrir SepheIA
+                    </button>
+                    <button class="btn btn-secondary">
+                        <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        Descargar informe
+                    </button>
+                </div>
             </div>
             
             <!-- Tarjetas de resumen -->
@@ -501,6 +512,7 @@
     <!-- Incluir script para protección de ruta -->
     <script src="js/panel-auth.js"></script>
     <script src="js/ai-turbine-analysis.js"></script>
-    <script src="js/ai-assistant-integration.js"></script>
+    <!--<script src="js/ai-assistant-integration.js"></script>-->
+    <!--<script src="js/sepheia.js"></script>-->
 </body>
 </html>

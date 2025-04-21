@@ -594,3 +594,57 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+/* Estilos adicionales para el panel con SepheIA */
+
+.panel-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn-primary.sepheia-btn {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    transition: all 0.3s ease;
+}
+
+.btn-primary.sepheia-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    background: linear-gradient(135deg, #1d4ed8, #2563eb);
+}
+
+.btn-primary.sepheia-btn .btn-icon {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Ajustes para el header del panel con múltiples botones */
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+@media (max-width: 768px) {
+    .panel-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .panel-actions button {
+        width: 100%;
+    }
+}
