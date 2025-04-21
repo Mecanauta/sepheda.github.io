@@ -11,49 +11,64 @@
  * Este script conecta el sistema de telemetría existente con el módulo
  * de análisis de IA para turbinas eólicas.
  */
-
-// Esperar a que el DOM esté listo
-document.addEventListener('DOMContentLoaded', function() {
+// Escuchar el evento personalizado que indica que TurbineAI está listo
+window.addEventListener('turbineAIReady', function(e) {
+    console.log('Evento turbineAIReady recibido');
+    
     // Verificar que estamos en la página de cliente
     if (!document.getElementById('ai-assistant-container')) {
-        return; // No estamos en la página correcta, salir
-    }
-    
-    // Esperar un momento para asegurar que todos los scripts estén cargados
-    setTimeout(function() {
-        // Inicializar directamente sin cargar las dependencias
-        initializeAI();
-        // Conectar con los datos de telemetría existentes
-        connectToTelemetry();
-        // Configurar actualizaciones periódicas del asistente
-        setupPeriodicUpdates();
-    }, 100);
-});
-
-/**
- * Inicializa el sistema de IA
- */
-function initializeAI() {
-    if (!window.TurbineAI) {
-        console.error('Módulo TurbineAI no encontrado');
-        showAIError('Error al inicializar el asistente de IA');
+        console.log('No se encontró el contenedor del asistente IA');
         return;
     }
     
-    try {
-        // Inicializar el sistema de IA con datos históricos (si están disponibles)
-        const result = window.TurbineAI.initialize();
-        console.log('Sistema de IA inicializado:', result);
-        
-        // Renderizar la interfaz inicial
-        renderAIAssistant();
-        
-    } catch (error) {
-        console.error('Error al inicializar el sistema de IA:', error);
-        showAIError('Error al inicializar el asistente de IA');
+    // Inicializar el sistema de IA
+    initializeAI();
+    connectToTelemetry();
+    setupPeriodicUpdates();
+});
+// Esperar a que el DOM esté listo
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOMContentLoaded ejecutado');
+    
+    // Verificar que estamos en la página de cliente
+    if (!document.getElementById('ai-assistant-container')) {
+        console.log('No se encontró el contenedor del asistente IA');
+        return;
     }
-}
-
+    
+    console.log('Contenedor del asistente IA encontrado');
+    
+    // Verificar si TurbineAI ya está disponible
+    if (window.TurbineAI) {
+        console.log('TurbineAI ya está disponible, inicializando...');
+        initializeAI();
+        connectToTelemetry();
+        setupPeriodicUpdates();
+    } else {
+        // Si no está disponible, esperar a que el script de TurbineAI se cargue
+        console.log('TurbineAI no está disponible, esperando...');
+        
+        // Crear un intervalo para verificar periódicamente si TurbineAI está disponible
+        let attempts = 0;
+        const maxAttempts = 10;
+        const checkInterval = setInterval(function() {
+            attempts++;
+            console.log(`Intento ${attempts} de ${maxAttempts}...`);
+            
+            if (window.TurbineAI) {
+                console.log('TurbineAI finalmente disponible, inicializando...');
+                clearInterval(checkInterval);
+                initializeAI();
+                connectToTelemetry();
+                setupPeriodicUpdates();
+            } else if (attempts >= maxAttempts) {
+                console.error('TurbineAI no se cargó después de múltiples intentos');
+                clearInterval(checkInterval);
+                showAIError('Error al inicializar el asistente de IA. Por favor, recargue la página.');
+            }
+        }, 500); // Verificar cada 500ms
+    }
+});
 
 /**
  * Carga las dependencias necesarias para el funcionamiento del asistente de IA
@@ -84,19 +99,23 @@ function loadDependencies() {
  * Inicializa el sistema de IA
  */
 function initializeAI() {
+    console.log('Función initializeAI llamada');
+    
     if (!window.TurbineAI) {
         console.error('Módulo TurbineAI no encontrado');
+        showAIError('Error al inicializar el asistente de IA');
         return;
     }
     
+    console.log('TurbineAI encontrado, intentando inicializar');
+    
     try {
         // Inicializar el sistema de IA con datos históricos (si están disponibles)
-        // En producción, estos datos vendrían de tu API
-        // Para demo, usamos generación de datos simulados
         const result = window.TurbineAI.initialize();
         console.log('Sistema de IA inicializado:', result);
         
         // Renderizar la interfaz inicial
+        console.log('Llamando a renderAIAssistant');
         renderAIAssistant();
         
     } catch (error) {
@@ -192,80 +211,83 @@ function renderAIAssistant() {
     
     // Crear el HTML base del asistente
     const html = `
-        <div id="ai-assistant-root" class="ai-assistant">
-            <!-- Tarjetas de métricas -->
-            <div class="ai-metrics-grid">
-                <div class="ai-metric-card">
-                    <div class="ai-metric-label">Eficiencia Actual</div>
-                    <div id="ai-efficiency-value" class="ai-metric-value optimal">87%</div>
-                    <div id="ai-efficiency-trend" class="ai-metric-trend">+2.1% respecto a la semana anterior</div>
-                </div>
-                
-                <div class="ai-metric-card">
-                    <div class="ai-metric-label">Próximo Mantenimiento</div>
-                    <div id="ai-maintenance-value" class="ai-metric-value normal">28 días</div>
-                    <div id="ai-maintenance-status" class="ai-metric-trend">Programado</div>
-                </div>
-                
-                <div class="ai-metric-card">
-                    <div class="ai-metric-label">Estado de Salud</div>
-                    <div id="ai-health-value" class="ai-metric-value optimal">95/100</div>
-                    <div id="ai-health-trend" class="ai-metric-trend">Estable</div>
-                </div>
+    <div id="ai-assistant-root" class="ai-assistant">
+        <!-- Tarjetas de métricas -->
+        <div class="ai-metrics-grid">
+            <div class="ai-metric-card">
+                <div class="ai-metric-label">Eficiencia Actual</div>
+                <div id="ai-efficiency-value" class="ai-metric-value optimal">87%</div>
+                <div id="ai-efficiency-trend" class="ai-metric-trend">+2.1% respecto a la semana anterior</div>
             </div>
             
-            <!-- Sección de Insights -->
-            <div class="ai-insights">
-                <h3 class="ai-insights-title">Insights de IA</h3>
-                <div id="ai-insights-container" class="ai-insights-container">
-                    <p class="text-center text-gray-500 p-4">Cargando insights...</p>
-                </div>
+            <div class="ai-metric-card">
+                <div class="ai-metric-label">Próximo Mantenimiento</div>
+                <div id="ai-maintenance-value" class="ai-metric-value normal">28 días</div>
+                <div id="ai-maintenance-status" class="ai-metric-trend">Programado</div>
             </div>
             
-            <!-- Asistente conversacional -->
-            <div class="ai-chat">
-                <h3 class="ai-chat-title">Consulta con el Asistente</h3>
-                <div class="ai-chat-container">
-                    <div id="ai-chat-messages">
-                        <!-- Los mensajes se añadirán aquí -->
-                    </div>
-                    
-                    <form id="ai-chat-form" class="ai-chat-form">
-                        <input 
-                            type="text" 
-                            id="ai-chat-input" 
-                            class="ai-chat-input" 
-                            placeholder="Pregunta sobre tu turbina..."
-                        >
-                        <button type="submit" id="ai-chat-submit" class="ai-chat-submit">
-                            Preguntar
-                        </button>
-                    </form>
-                </div>
-                <div class="ai-chat-suggestions">
-                    Sugerencias: "¿Cuál es la eficiencia actual?", "¿Cuándo es el próximo mantenimiento?", "¿Hay algún problema detectado?"
-                </div>
+            <div class="ai-metric-card">
+                <div class="ai-metric-label">Estado de Salud</div>
+                <div id="ai-health-value" class="ai-metric-value optimal">95/100</div>
+                <div id="ai-health-trend" class="ai-metric-trend">Estable</div>
             </div>
         </div>
+        
+        <!-- Sección de Insights -->
+        <div class="ai-insights">
+            <h3 class="ai-insights-title">Insights de IA</h3>
+            <div id="ai-insights-container" class="ai-insights-container">
+                <p class="text-center text-gray-500 p-4">Cargando insights...</p>
+            </div>
+        </div>
+        
+        <!-- Asistente conversacional -->
+        <div class="ai-chat">
+            <h3 class="ai-chat-title">Consulta con el Asistente</h3>
+            <div class="ai-chat-container">
+                <div id="ai-chat-messages">
+                    <!-- Los mensajes se añadirán aquí -->
+                </div>
+                
+                <form id="ai-chat-form" class="ai-chat-form">
+                    <input 
+                        type="text" 
+                        id="ai-chat-input" 
+                        class="ai-chat-input" 
+                        placeholder="Pregunta sobre tu turbina..."
+                    >
+                    <button type="submit" id="ai-chat-submit" class="ai-chat-submit">
+                        Preguntar
+                    </button>
+                </form>
+            </div>
+            <div class="ai-chat-suggestions">
+                Sugerencias: "¿Cuál es la eficiencia actual?", "¿Cuándo es el próximo mantenimiento?", "¿Hay algún problema detectado?"
+            </div>
+        </div>
+    </div>
     `;
     
     // Insertar el HTML en el contenedor
+    console.log('Insertando HTML en el contenedor');
     container.innerHTML = html;
     
     // Configurar el formulario de chat
+    console.log('Configurando formulario de chat');
     setupChatForm();
     
     // Realizar el análisis inicial
     const datos = getTelemetryValues();
     if (window.TurbineAI) {
         try {
+            console.log('Realizando análisis inicial con datos:', datos);
             const analysis = window.TurbineAI.analyzeTelemetry(datos);
             updateAIAssistantWithAnalysis(analysis);
         } catch (error) {
             console.error('Error en análisis inicial:', error);
         }
     }
-}
+}   
 
 /**
  * Configura el formulario de chat para interactuar con la IA

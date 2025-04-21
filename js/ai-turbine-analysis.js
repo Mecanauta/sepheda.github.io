@@ -805,4 +805,8 @@ if (typeof module !== 'undefined' && module.exports) {
     module.exports = TurbineAI;
 } else if (typeof window !== 'undefined') {
     window.TurbineAI = TurbineAI;
+    // Disparar un evento personalizado cuando TurbineAI esté listo
+    const event = new CustomEvent('turbineAIReady', { detail: { TurbineAI } });
+    window.dispatchEvent(event);
+    console.log('TurbineAI exportado al objeto window');
 }
