@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Cliente - Sepheda Mantenimiento</title>
     <link rel="stylesheet" href="css/panel.css">
+    <link rel="stylesheet" href="css/ai-assistant.css">
+    
 
     <script src="js/panel-auth.js"></script>
     
@@ -20,8 +22,11 @@
 
     <script src="js/telemetria-cliente.js"></script>
     <script src="js/telemetria-fullscreen.js"></script>
+    <!--<script src="js/ai-turbine-analysis.js"></script>
+    <script src="js/ai-assistant-integration.js"></script>-->
 </head>
 <body>
+    
     <!-- Barra de navegación -->
     <nav class="navbar">
         <a href="index.html" class="navbar-brand">
@@ -261,6 +266,23 @@
     </div>
 </div>
 
+<!-- Sección para el Asistente IA -->
+<div class="card" id="ai-assistant-container">
+    <div class="card-header">
+        <h2 class="card-title">
+            <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                <line x1="12" y1="17" x2="12" y2="17"></line>
+            </svg>
+            Asistente de IA
+        </h2>
+    </div>
+    
+    <!-- El contenido se generará dinámicamente -->
+</div>
+
+
             <!-- Gráfico de rendimiento -->
             <div class="chart-container">
                 <h2 class="card-title">Rendimiento de la Turbina LIAM F1</h2>
@@ -478,7 +500,9 @@
         });
     </script>
     
+    
     <!-- Incluir script para protección de ruta -->
     <script src="js/panel-auth.js"></script>
+    
 </body>
 </html>
