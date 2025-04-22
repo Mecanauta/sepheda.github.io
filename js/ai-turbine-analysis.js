@@ -683,9 +683,164 @@ const TurbineAI = (function() {
             
             return recommendations[Math.floor(Math.random() * recommendations.length)];
         }
+
+        // NUEVAS PREGUNTAS AGREGADAS
+
+        // Preguntas sobre costos/ahorro
+        if (question.includes('costo') || question.includes('ahorro') || question.includes('dinero')) {
+            const produccionMensual = current.power * 24 * 30; // kWh por mes
+            const costoKwh = 0.15; // Ejemplo de precio por kWh
+            const ahorro = produccionMensual * costoKwh;
+            
+            return `La turbina está generando un ahorro estimado de $${ahorro.toFixed(2)} al mes basado en la producción actual. Esto equivale a ${produccionMensual.toFixed(2)} kWh mensuales con un costo promedio de $${costoKwh}/kWh.`;
+        }
+        
+        // Preguntas sobre vida útil
+        if (question.includes('vida útil') || question.includes('durabilidad') || question.includes('cuánto dura')) {
+            const yearsInService = 3; // Simulado
+            const expectedLifespan = 20; // Años esperados
+            const healthScore = healthScores.overall;
+            
+            return `Esta turbina tiene ${yearsInService} años de servicio. Con un índice de salud actual del ${healthScore}%, se espera que continúe operando eficientemente por ${expectedLifespan - yearsInService} años más bajo mantenimiento regular.`;
+        }
+
+        // Preguntas sobre impacto ambiental
+        if (question.includes('co2') || question.includes('carbono') || question.includes('impacto ambiental')) {
+            const produccionAnual = current.power * 24 * 365;
+            const co2Evitado = produccionAnual * 0.5; // kg de CO2 por kWh
+            
+            return `La turbina está evitando la emisión de aproximadamente ${co2Evitado.toFixed(2)} kg de CO2 al año, equivalente a plantar ${(co2Evitado/22).toFixed(0)} árboles o retirar ${(co2Evitado/4800).toFixed(1)} automóviles de la circulación.`;
+        }
+
+        // Preguntas sobre histórico de producción
+        if (question.includes('mejor mes') || question.includes('récord') || question.includes('máxima producción')) {
+            const bestMonth = historicalData.reduce((max, data) => 
+                data.power > max.power ? data : max, historicalData[0]);
+            
+            return `El récord de producción fue de ${bestMonth.power.toFixed(2)} kW el ${new Date(bestMonth.timestamp).toLocaleDateString()}. Las condiciones óptimas incluyeron vientos de ${bestMonth.windSpeed.toFixed(1)} m/s y una eficiencia del ${bestMonth.efficiency.toFixed(1)}%.`;
+        }
+
+        // Preguntas sobre ajustes/configuración
+        if (question.includes('ajuste') || question.includes('configurar') || question.includes('calibrar')) {
+            const currentEfficiency = current.efficiency;
+            const windSpeed = current.windSpeed;
+            
+            // Simulación de cálculo de ángulo óptimo
+            const optimalAngle = Math.min(15, Math.max(2, windSpeed * 0.8)); // Fórmula simplificada
+            
+            return `Para las condiciones actuales de viento (${windSpeed.toFixed(1)} m/s), se recomienda ajustar el ángulo de las palas a ${optimalAngle.toFixed(1)}°. Esto podría mejorar la eficiencia de ${currentEfficiency.toFixed(1)}% a ${(currentEfficiency + 2).toFixed(1)}%.`;
+        }
+
+        // Preguntas sobre temperatura y clima
+        if (question.includes('temperatura') || question.includes('clima') || question.includes('condiciones atmosféricas')) {
+            const temperatura = 22 + Math.random() * 3; // Simulación
+            const humedad = 65 + Math.random() * 10; // Simulación
+            
+            return `Las condiciones climáticas actuales son: velocidad del viento ${current.windSpeed.toFixed(1)} m/s, temperatura ambiente ${temperatura.toFixed(1)}°C, humedad ${humedad.toFixed(0)}%. Estas condiciones son ${current.windSpeed > 7 && current.windSpeed < 13 ? 'óptimas' : 'subóptimas'} para la generación eléctrica.`;
+        }
+
+        // Preguntas sobre comparativa histórica
+        if (question.includes('último año') || question.includes('año pasado') || question.includes('comparativa anual')) {
+            const lastYearAvg = 1450; // kWh simulado
+            const thisYearAvg = current.power * 24 * 365;
+            const difference = ((thisYearAvg - lastYearAvg) / lastYearAvg) * 100;
+            
+            return `Comparado con el año pasado, la producción ha ${difference > 0 ? 'aumentado' : 'disminuido'} un ${Math.abs(difference).toFixed(1)}%. Producción del año pasado: ${lastYearAvg} kWh, proyección actual: ${thisYearAvg.toFixed(0)} kWh.`;
+        }
+
+        // Preguntas sobre ROI (Retorno de Inversión)
+        if (question.includes('roi') || question.includes('retorno') || question.includes('inversión')) {
+            const installationCost = 15000; // Costo simulado
+            const yearlyProduction = current.power * 24 * 365;
+            const electricityCost = 0.15; // $/kWh
+            const yearlySavings = yearlyProduction * electricityCost;
+            const roiYears = installationCost / yearlySavings;
+            
+            return `Con una inversión inicial de $${installationCost.toLocaleString()} y un ahorro anual de $${yearlySavings.toFixed(2)}, el retorno de inversión se estima en ${roiYears.toFixed(1)} años. Has recuperado el ${((3/roiYears)*100).toFixed(1)}% de tu inversión hasta ahora.`;
+        }
+
+        // Preguntas sobre componentes específicos
+        if (question.includes('rodamiento') || question.includes('bearing')) {
+            return `Los rodamientos tienen una salud del ${healthScores.byComponent.bearings.toFixed(1)}%. La última revisión fue hace ${Math.floor(Math.random() * 90) + 30} días. ${healthScores.byComponent.bearings < 80 ? 'Se recomienda una inspección próximamente.' : 'Su estado es bueno.'}`;
+        }
+
+        if (question.includes('pala') || question.includes('blade')) {
+            return `Las palas tienen una salud del ${healthScores.byComponent.blades.toFixed(1)}%. ${healthScores.byComponent.blades < 85 ? 'Se detectó un ligero desgaste en el borde de ataque. Considere una inspección visual.' : 'Están en excelente condición.'}`;
+        }
+
+        if (question.includes('generador') || question.includes('generator')) {
+            return `El generador tiene una salud del ${healthScores.byComponent.generator.toFixed(1)}%. La eficiencia de conversión es del ${(healthScores.byComponent.generator * 0.95).toFixed(1)}%. ${healthScores.byComponent.generator > 90 ? 'Funcionamiento óptimo.' : 'Se recomienda verificar las conexiones.'}`;
+        }
+
+        // Preguntas sobre predicciones
+        if (question.includes('predicción') || question.includes('pronóstico') || question.includes('futuro')) {
+            const futureProduction = current.power * 1.05; // 5% de mejora proyectada
+            const futureEfficiency = current.efficiency * 1.02; // 2% de mejora proyectada
+            
+            return `Basado en las tendencias actuales y las mejoras planificadas, proyectamos que la producción podría aumentar a ${futureProduction.toFixed(2)} kW y la eficiencia a ${futureEfficiency.toFixed(1)}% en los próximos 6 meses si se siguen las recomendaciones de mantenimiento.`;
+        }
+
+        // Preguntas sobre métricas específicas
+        if (question.includes('voltaje')) {
+            return `El voltaje actual es ${current.voltage.toFixed(1)}V, ${
+                current.voltage >= OPTIMAL_VOLTAGE_RANGE[0] && current.voltage <= OPTIMAL_VOLTAGE_RANGE[1] ? 
+                'dentro del rango óptimo' : 'fuera del rango óptimo'
+            } (${OPTIMAL_VOLTAGE_RANGE[0]}-${OPTIMAL_VOLTAGE_RANGE[1]}V). La estabilidad del voltaje es del ${(100 - Math.random() * 5).toFixed(1)}%.`;
+        }
+
+        if (question.includes('amperaje') || question.includes('corriente')) {
+            return `El amperaje actual es ${current.amperage.toFixed(1)}A, ${
+                current.amperage >= OPTIMAL_AMPERAGE_RANGE[0] && current.amperage <= OPTIMAL_AMPERAGE_RANGE[1] ? 
+                'dentro del rango óptimo' : 'fuera del rango óptimo'
+            } (${OPTIMAL_AMPERAGE_RANGE[0]}-${OPTIMAL_AMPERAGE_RANGE[1]}A). La estabilidad de la corriente es del ${(100 - Math.random() * 3).toFixed(1)}%.`;
+        }
+
+        if (question.includes('rpm') || question.includes('revoluciones')) {
+            const idealRpm = current.windSpeed * RPM_WIND_RATIO;
+            const rpmDeviation = ((current.rpm - idealRpm) / idealRpm) * 100;
+            
+            return `Las RPM actuales son ${current.rpm.toFixed(0)}, que está ${Math.abs(rpmDeviation).toFixed(1)}% ${rpmDeviation > 0 ? 'por encima' : 'por debajo'} del valor ideal para la velocidad del viento actual. ${Math.abs(rpmDeviation) > 15 ? 'Se recomienda verificar el sistema de control.' : 'Operando dentro de parámetros normales.'}`;
+        }
+
+        // Preguntas sobre alertas
+        if (question.includes('alerta') || question.includes('advertencia') || question.includes('warning')) {
+            const alerts = [];
+            
+            if (healthScores.overall < 80) alerts.push('Salud general por debajo del 80%');
+            if (current.efficiency < 70) alerts.push('Eficiencia por debajo del 70%');
+            if (current.windSpeed > 15) alerts.push('Velocidad del viento cerca del límite superior');
+            
+            const maintenance = predictNextMaintenance();
+            if (maintenance.daysUntil < 7) alerts.push('Mantenimiento próximo requerido');
+            
+            return alerts.length > 0 ? 
+                `Alertas activas: ${alerts.join(', ')}. Se recomienda monitoreo cercano.` :
+                'No hay alertas activas en este momento. Todos los sistemas operan normalmente.';
+        }
+
+        // Preguntas sobre actualizaciones del sistema
+        if (question.includes('actualizar') || question.includes('upgrade') || question.includes('firmware')) {
+            return `La versión actual del firmware es 2.4.1. Hay una actualización disponible (versión 2.5.0) que incluye: 
+            - Mejora del 3% en eficiencia de conversión
+            - Mejor respuesta a cambios de dirección del viento
+            - Optimización del sistema de frenado
+            - Corrección de errores menores
+            Se recomienda programar la actualización durante el próximo mantenimiento.`;
+        }
+
+        // Preguntas sobre seguridad
+        if (question.includes('seguridad') || question.includes('seguro') || question.includes('protección')) {
+            return `Sistemas de seguridad activos:
+            - Freno aerodinámico: operativo
+            - Protección contra sobrecarga: activa
+            - Sistema anti-vibración: normal
+            - Protección contra tormentas: en espera
+            - Parada de emergencia: disponible
+            Última prueba de seguridad: hace ${Math.floor(Math.random() * 14) + 1} días. Todos los sistemas funcionan correctamente.`;
+        }
         
         // Respuesta por defecto
-        return 'Puedo ayudarte con información sobre la eficiencia, mantenimiento, posibles problemas, producción energética, condiciones de viento, y recomendaciones para tu turbina. ¿Qué información específica necesitas?';
+        return 'Puedo ayudarte con información sobre la eficiencia, mantenimiento, posibles problemas, producción energética, condiciones de viento, costos/ahorros, impacto ambiental, vida útil, configuración y recomendaciones para tu turbina. ¿Qué información específica necesitas?';
     }
     
     /**
