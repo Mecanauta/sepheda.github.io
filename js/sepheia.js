@@ -2,107 +2,164 @@
  * SepheIA - Asistente Inteligente para Turbinas
  * 
  * Este script maneja la funcionalidad de la página independiente de SepheIA
+ * y coordina la integración entre el sistema legacy (TurbineAI) y 
+ * el sistema nuevo (RealTurbineAI)
  */
 
-// Verificar si TurbineAI ya está disponible inmediatamente
+// Variables de estado
+let turbineAIReady = false;
+let realTurbineAIReady = false;
+let sepheiaInitialized = false;
+
+// Verificar si los sistemas de IA están disponibles inmediatamente
 console.log('Script sepheia.js cargado. TurbineAI disponible:', !!window.TurbineAI);
+console.log('Script sepheia.js cargado. RealTurbineAI disponible:', !!window.RealTurbineAI);
 
 // Manejar el evento personalizado de TurbineAI
 window.addEventListener('turbineAIReady', function(e) {
     console.log('Evento turbineAIReady recibido');
-    // Si aún no se ha inicializado, hacerlo ahora
-    if (!window.sepheiaInitialized) {
-        checkAuthAndInitialize();
-    }
+    turbineAIReady = true;
+    checkSystemsAndInitialize();
+});
+
+// Manejar el evento personalizado de RealTurbineAI
+window.addEventListener('realTurbineAIReady', function(e) {
+    console.log('Evento realTurbineAIReady recibido');
+    realTurbineAIReady = true;
+    checkSystemsAndInitialize();
 });
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOMContentLoaded en sepheia.js');
     
-    // Verificar si TurbineAI ya está disponible
+    // Verificar si los sistemas ya están disponibles
     if (window.TurbineAI) {
         console.log('TurbineAI ya disponible en DOMContentLoaded');
-        checkAuthAndInitialize();
-    } else {
-        console.log('TurbineAI NO disponible aún');
-        // Intentar esperar un poco y verificar de nuevo
-        setTimeout(() => {
-            if (window.TurbineAI) {
-                console.log('TurbineAI disponible después de esperar');
-                checkAuthAndInitialize();
-            } else {
-                console.log('TurbineAI aún no disponible después de esperar');
-                showAIError('Error al cargar el módulo de análisis. Por favor, recargue la página.');
-            }
-        }, 1000);
+        turbineAIReady = true;
     }
+    
+    if (window.RealTurbineAI) {
+        console.log('RealTurbineAI ya disponible en DOMContentLoaded');
+        realTurbineAIReady = true;
+    }
+    
+    // Verificar si podemos inicializar
+    checkSystemsAndInitialize();
+    
+    // Si después de 3 segundos no se han cargado, intentar inicializar con lo que haya
+    setTimeout(() => {
+        if (!sepheiaInitialized) {
+            console.log('Tiempo de espera agotado, inicializando con sistemas disponibles');
+            checkSystemsAndInitialize(true);
+        }
+    }, 3000);
 });
+
+function checkSystemsAndInitialize(force = false) {
+    // Evitar inicialización múltiple
+    if (sepheiaInitialized) return;
+    
+    console.log(`Verificando sistemas: TurbineAI=${turbineAIReady}, RealTurbineAI=${realTurbineAIReady}`);
+    
+    // Inicializar si ambos sistemas están listos o si se fuerza la inicialización
+    if ((turbineAIReady && realTurbineAIReady) || force) {
+        console.log('Comenzando inicialización de SepheIA');
+        checkAuthAndInitialize();
+    }
+}
 
 function checkAuthAndInitialize() {
     // Marcar como inicializado para evitar múltiples inicializaciones
-    window.sepheiaInitialized = true;
+    sepheiaInitialized = true;
     
     // Verificar autenticación
-    firebase.auth().onAuthStateChanged(async (user) => {
-        if (!user) {
-            window.location.href = 'loggin.html';
-            return;
-        }
-        
-        try {
-            // Verificar el rol del usuario
-            const userDoc = await firebase.firestore().collection('usuarios').doc(user.uid).get();
-            
-            if (!userDoc.exists) {
-                throw new Error("No se encontró información de usuario");
-            }
-            
-            const userData = userDoc.data();
-            
-            // Verificar que sea un cliente
-            if (userData.rol !== 'cliente') {
-                alert('No tienes permiso para acceder a esta página');
+    if (typeof firebase !== 'undefined' && firebase.auth) {
+        firebase.auth().onAuthStateChanged(async (user) => {
+            if (!user) {
                 window.location.href = 'loggin.html';
                 return;
             }
             
-            // Actualizar nombre de usuario
-            document.querySelector('.user-name').textContent = userData.nombre || 'Cliente';
-            
-            // Inicializar SepheIA
-            initializeSepheIA(user.uid);
-            
-        } catch (error) {
-            console.error("Error al verificar usuario:", error);
-            alert("Error al cargar datos de usuario");
-            window.location.href = 'loggin.html';
+            try {
+                // Verificar el rol del usuario
+                const userDoc = await firebase.firestore().collection('usuarios').doc(user.uid).get();
+                
+                if (!userDoc.exists) {
+                    throw new Error("No se encontró información de usuario");
+                }
+                
+                const userData = userDoc.data();
+                
+                // Verificar que sea un cliente
+                if (userData.rol !== 'cliente') {
+                    alert('No tienes permiso para acceder a esta página');
+                    window.location.href = 'loggin.html';
+                    return;
+                }
+                
+                // Actualizar nombre de usuario
+                const userNameElement = document.querySelector('.user-name');
+                if (userNameElement) {
+                    userNameElement.textContent = userData.nombre || 'Cliente';
+                }
+                
+                // Inicializar SepheIA
+                initializeSepheIA(user.uid);
+                
+            } catch (error) {
+                console.error("Error al verificar usuario:", error);
+                alert("Error al cargar datos de usuario");
+                window.location.href = 'loggin.html';
+            }
+        });
+        
+        // Manejar cierre de sesión
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', async () => {
+                try {
+                    await firebase.auth().signOut();
+                    window.location.href = 'loggin.html';
+                } catch (error) {
+                    console.error("Error al cerrar sesión:", error);
+                    alert("Error al cerrar sesión");
+                }
+            });
         }
-    });
-    
-    // Manejar cierre de sesión
-    document.getElementById('logoutBtn').addEventListener('click', async () => {
-        try {
-            await firebase.auth().signOut();
-            window.location.href = 'loggin.html';
-        } catch (error) {
-            console.error("Error al cerrar sesión:", error);
-            alert("Error al cerrar sesión");
-        }
-    });
+    } else {
+        // Si Firebase no está disponible, inicializar SepheIA con modo demo
+        console.log('Firebase no disponible, inicializando en modo demo');
+        initializeSepheIA('demo-user');
+    }
 }
 
 function initializeSepheIA(userId) {
-    console.log('Iniciando SepheIA. TurbineAI disponible:', !!window.TurbineAI);
+    console.log('Iniciando SepheIA...');
+    console.log('TurbineAI disponible:', !!window.TurbineAI);
+    console.log('RealTurbineAI disponible:', !!window.RealTurbineAI);
     
     try {
-        if (!window.TurbineAI) {
-            throw new Error('Módulo TurbineAI no encontrado');
+        // Primero inicializamos RealTurbineAI si está disponible
+        if (window.RealTurbineAI) {
+            console.log('Inicializando RealTurbineAI...');
+            window.RealTurbineAI.initialize()
+                .then(result => {
+                    console.log('RealTurbineAI inicializado:', result);
+                })
+                .catch(error => {
+                    console.error('Error al inicializar RealTurbineAI:', error);
+                });
         }
         
-        // Inicializar el sistema de IA
-        console.log('Inicializando TurbineAI...');
-        window.TurbineAI.initialize();
-        console.log('TurbineAI inicializado correctamente');
+        // Luego inicializamos TurbineAI como fallback
+        if (window.TurbineAI) {
+            console.log('Inicializando TurbineAI...');
+            window.TurbineAI.initialize();
+            console.log('TurbineAI inicializado correctamente');
+        } else if (!window.RealTurbineAI) {
+            // Si ninguno de los dos sistemas está disponible, mostrar error
+            throw new Error('Ningún sistema de IA disponible');
+        }
         
         // Renderizar la interfaz
         renderAIAssistant();
@@ -121,8 +178,6 @@ function initializeSepheIA(userId) {
 
 async function cargarDatosTurbinas(userId) {
     try {
-        const clienteDoc = await firebase.firestore().collection('clientes').doc(userId).get();
-        
         // Usar datos simulados como predeterminado
         const datosSimulados = {
             voltaje: 75,
@@ -132,62 +187,98 @@ async function cargarDatosTurbinas(userId) {
             timestamp: new Date()
         };
         
-        if (!clienteDoc.exists) {
-            console.log("No se encontró información del cliente, usando datos simulados");
-            const analysis = window.TurbineAI.analyzeTelemetry(datosSimulados);
-            updateAIAssistantWithAnalysis(analysis);
-            return;
-        }
-        
-        const clienteData = clienteDoc.data();
-        
-        if (clienteData.turbinas && clienteData.turbinas.length > 0) {
-            const turbina = await firebase.firestore().collection('turbinas').doc(clienteData.turbinas[0]).get();
+        // Si Firebase está disponible, intentar cargar datos reales
+        if (typeof firebase !== 'undefined' && firebase.firestore) {
+            const clienteDoc = await firebase.firestore().collection('clientes').doc(userId).get();
             
-            if (turbina.exists) {
-                const turbinaData = turbina.data();
-                const datos = {
-                    voltaje: turbinaData.voltaje_actual || datosSimulados.voltaje,
-                    amperaje: turbinaData.amperaje_actual || datosSimulados.amperaje,
-                    rpm: turbinaData.rpm_actual || datosSimulados.rpm,
-                    velocidadViento: turbinaData.velocidad_viento_actual || datosSimulados.velocidadViento,
-                    timestamp: new Date()
-                };
-                
-                const analysis = window.TurbineAI.analyzeTelemetry(datos);
-                updateAIAssistantWithAnalysis(analysis);
-            } else {
-                // Usar datos simulados si la turbina no existe
-                const analysis = window.TurbineAI.analyzeTelemetry(datosSimulados);
-                updateAIAssistantWithAnalysis(analysis);
+            if (!clienteDoc.exists) {
+                console.log("No se encontró información del cliente, usando datos simulados");
+                procesarDatos(datosSimulados);
+                return;
             }
-        } else {
-            // Usar datos simulados si no hay turbinas
-            const analysis = window.TurbineAI.analyzeTelemetry(datosSimulados);
-            updateAIAssistantWithAnalysis(analysis);
+            
+            const clienteData = clienteDoc.data();
+            
+            if (clienteData.turbinas && clienteData.turbinas.length > 0) {
+                const turbina = await firebase.firestore().collection('turbinas').doc(clienteData.turbinas[0]).get();
+                
+                if (turbina.exists) {
+                    const turbinaData = turbina.data();
+                    const datos = {
+                        voltaje: turbinaData.voltaje_actual || datosSimulados.voltaje,
+                        amperaje: turbinaData.amperaje_actual || datosSimulados.amperaje,
+                        rpm: turbinaData.rpm_actual || datosSimulados.rpm,
+                        velocidadViento: turbinaData.velocidad_viento_actual || datosSimulados.velocidadViento,
+                        timestamp: new Date()
+                    };
+                    
+                    procesarDatos(datos);
+                    return;
+                }
+            }
         }
+        
+        // Si no hay datos reales, usar datos simulados
+        procesarDatos(datosSimulados);
+        
     } catch (error) {
         console.error("Error al cargar datos de turbinas:", error);
-        // Usar datos simulados como fallback
-        const datosSimulados = {
-            voltaje: 75,
-            amperaje: 30,
-            rpm: 3000,
-            velocidadViento: 8,
-            timestamp: new Date()
-        };
-        
-        const analysis = window.TurbineAI.analyzeTelemetry(datosSimulados);
-        updateAIAssistantWithAnalysis(analysis);
+        procesarDatos(datosSimulados);
+    }
+}
+
+function procesarDatos(datos) {
+    console.log('Procesando datos:', datos);
+    
+    // Intentar alimentar datos a RealTurbineAI
+    if (window.RealTurbineAI) {
+        try {
+            window.RealTurbineAI.addTrainingData(datos);
+            console.log('Datos añadidos a RealTurbineAI');
+            
+            // Actualizar panel de entrenamiento si está disponible
+            if (window.RealAIIntegration) {
+                window.RealAIIntegration.updateTrainingPanel();
+            }
+            
+            // Generar insights si hay suficientes datos
+            if (window.RealTurbineAI.getDataSize() > 5) {
+                window.RealTurbineAI.generateInsights(datos)
+                    .then(insights => {
+                        console.log('Insights generados:', insights);
+                        if (window.RealAIIntegration) {
+                            window.RealAIIntegration.updateAIInterface(datos, insights);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error al generar insights:', error);
+                    });
+            }
+        } catch (error) {
+            console.error('Error al añadir datos a RealTurbineAI:', error);
+        }
+    }
+    
+    // También procesar con TurbineAI como fallback
+    if (window.TurbineAI) {
+        try {
+            const analysis = window.TurbineAI.analyzeTelemetry(datos);
+            updateAIAssistantWithAnalysis(analysis);
+        } catch (error) {
+            console.error('Error al analizar datos con TurbineAI:', error);
+        }
     }
 }
 
 function setupPeriodicUpdates() {
     // Actualizar cada 30 segundos
     setInterval(async () => {
-        const user = firebase.auth().currentUser;
-        if (user && window.TurbineAI) {
-            await cargarDatosTurbinas(user.uid);
+        const user = typeof firebase !== 'undefined' && firebase.auth ? 
+            firebase.auth().currentUser : 'demo-user';
+            
+        if (user) {
+            const userId = typeof user === 'string' ? user : user.uid;
+            await cargarDatosTurbinas(userId);
         }
     }, 30000);
 }
@@ -195,6 +286,14 @@ function setupPeriodicUpdates() {
 function renderAIAssistant() {
     const container = document.getElementById('ai-assistant-container');
     if (!container) return;
+    
+    // Verificar si ya tenemos el HTML del asistente (evitar duplicados)
+    if (document.getElementById('ai-assistant-root')) {
+        console.log('Asistente ya renderizado, actualizando...');
+        return;
+    }
+    
+    console.log('Renderizando asistente...');
     
     const html = `
     <div id="ai-assistant-root" class="ai-assistant">
@@ -281,7 +380,12 @@ function setupChatForm() {
     const submit = document.getElementById('ai-chat-submit');
     const messages = document.getElementById('ai-chat-messages');
     
-    if (!form || !input || !submit || !messages) return;
+    if (!form || !input || !submit || !messages) {
+        console.error('No se pudieron encontrar elementos del formulario de chat');
+        return;
+    }
+    
+    console.log('Configurando formulario de chat...');
     
     form.addEventListener('submit', function(e) {
         e.preventDefault();
@@ -295,29 +399,47 @@ function setupChatForm() {
         addMessage(question, 'user');
         input.value = '';
         
-        if (window.TurbineAI) {
+        // Determinar qué sistema usar para responder
+        let answerSystem = null;
+        let systemName = '';
+        
+        if (window.RealTurbineAI && window.RealTurbineAI.isModelTrained && window.RealTurbineAI.isModelTrained()) {
+            answerSystem = window.RealTurbineAI;
+            systemName = 'RealTurbineAI';
+        } else if (window.TurbineAI) {
+            answerSystem = window.TurbineAI;
+            systemName = 'TurbineAI';
+        }
+        
+        if (answerSystem) {
             try {
-                const answer = window.TurbineAI.answerQuestion(question);
+                console.log(`Respondiendo usando ${systemName}...`);
+                const answer = answerSystem.answerQuestion(question);
                 
-                setTimeout(() => {
-                    addMessage(answer, 'assistant');
-                    
-                    input.disabled = false;
-                    submit.disabled = false;
-                    input.focus();
-                }, 800);
-                
+                // Si es una promesa (RealTurbineAI podría ser asíncrono)
+                if (answer instanceof Promise) {
+                    answer.then(result => {
+                        showAnswer(result);
+                    }).catch(error => {
+                        console.error(`Error al procesar pregunta con ${systemName}:`, error);
+                        showAnswer(`Lo siento, ocurrió un error. Por favor, intenta de nuevo.`);
+                    });
+                } else {
+                    // Si es una respuesta directa
+                    setTimeout(() => {
+                        showAnswer(answer);
+                    }, 800);
+                }
             } catch (error) {
-                console.error('Error al procesar pregunta:', error);
-                addMessage('Lo siento, ocurrió un error. Por favor, intenta de nuevo.', 'assistant');
-                
-                input.disabled = false;
-                submit.disabled = false;
-                input.focus();
+                console.error(`Error al procesar pregunta con ${systemName}:`, error);
+                showAnswer('Lo siento, ocurrió un error. Por favor, intenta de nuevo.');
             }
         } else {
-            addMessage('Lo siento, el sistema de IA no está disponible en este momento.', 'assistant');
-            
+            showAnswer('Lo siento, el sistema de IA no está disponible en este momento.');
+        }
+        
+        function showAnswer(text) {
+            addMessage(text, 'assistant');
             input.disabled = false;
             submit.disabled = false;
             input.focus();
@@ -352,6 +474,8 @@ function addMessage(text, sender) {
 
 function updateAIAssistantWithAnalysis(analysis) {
     if (!analysis || analysis.status !== 'success') return;
+    
+    console.log('Actualizando interfaz con análisis:', analysis);
     
     // Actualizar eficiencia
     const efficiencyValue = document.getElementById('ai-efficiency-value');
@@ -445,3 +569,11 @@ function showAIError(message) {
         </div>
     `;
 }
+
+// Exportar funciones para acceso global
+window.SepheIA = {
+    initialize: initializeSepheIA,
+    renderAIAssistant,
+    updateAIAssistantWithAnalysis,
+    showAIError
+};

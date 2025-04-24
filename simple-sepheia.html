@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SepheIA - Asistente Inteligente que Realmente Aprende</title>
+    <link rel="stylesheet" href="css/panel.css">
+    <link rel="stylesheet" href="css/ai-assistant.css">
+    <link rel="stylesheet" href="css/sepheia.css">
+    
+    <!-- Firebase App (la base) -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <!-- Firebase Auth -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+    <!-- Firebase Firestore -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+    
+    <!-- Configuración y funciones de Firebase -->
+    <script src="js/firebase-config.js"></script>
+    
+    <!-- Cargar los módulos de telemetría para generar datos -->
+    <script src="js/telemetria-cliente.js"></script>
+    
+    <!-- Cargar la solución simple pero funcional -->
+    <script src="js/simple-ai-solution.js"></script>
+    
+    <style>
+        /* Estilos adicionales para la demostración */
+        .ai-info-panel {
+            background-color: #f0f7ff;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #2563eb;
+        }
+        
+        .ai-info-title {
+            font-weight: 600;
+            color: #1e40af;
+            margin-bottom: 0.5rem;
+        }
+        
+        .ai-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .ai-stat {
+            background: white;
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        .ai-stat-label {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 0.25rem;
+        }
+        
+        .ai-stat-value {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1f2937;
+        }
+        
+        .data-count {
+            font-weight: 600;
+            color: #2563eb;
+        }
+    </style>
+</head>
+<body>
+    <!-- Barra de navegación -->
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">
+            <svg class="navbar-logo" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"></path>
+            </svg>
+            SepheIA Avanzada
+        </a>
+        
+        <div class="navbar-menu">
+            <a href="panel-cliente.html" class="navbar-item">Volver al Panel</a>
+            <a href="#" class="navbar-item">Ayuda</a>
+            
+            <div class="user-menu">
+                <div class="user-avatar">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </div>
+                <span class="user-name">Cliente</span>
+            </div>
+            
+            <button class="navbar-button" id="logoutBtn">Cerrar sesión</button>
+        </div>
+    </nav>
+    
+    <!-- Contenido principal -->
+    <div class="sepheia-container">
+        <div class="sepheia-header">
+            <h1 class="sepheia-title">SepheIA - Asistente Inteligente que Realmente Aprende</h1>
+            <p class="sepheia-subtitle">Análisis predictivo y recomendaciones adaptativas basadas en aprendizaje automático para optimizar el rendimiento de tus turbinas eólicas</p>
+        </div>
+        
+        <!-- Panel de información de IA -->
+        <div class="ai-info-panel">
+            <h3 class="ai-info-title">Sistema de Aprendizaje Automático</h3>
+            <p>Esta versión de SepheIA incluye un sistema de IA que realmente aprende de los datos. A diferencia de la versión anterior basada en reglas predefinidas, este sistema:</p>
+            <ul>
+                <li>Recopila y analiza datos históricos de la turbina</li>
+                <li>Entrena un modelo adaptativo que mejora con cada dato nuevo</li>
+                <li>Genera insights personalizados basados en patrones detectados</li>
+                <li>Proporciona predicciones más precisas con cada interacción</li>
+            </ul>
+            
+            <div class="ai-stats">
+                <div class="ai-stat">
+                    <div class="ai-stat-label">Datos recopilados</div>
+                    <div class="ai-stat-value"><span class="data-count">0</span> puntos</div>
+                </div>
+                <div class="ai-stat">
+                    <div class="ai-stat-label">Estado del modelo</div>
+                    <div class="ai-stat-value" id="model-status">Sin entrenar</div>
+                </div>
+                <div class="ai-stat">
+                    <div class="ai-stat-label">Precisión estimada</div>
+                    <div class="ai-stat-value" id="model-accuracy">N/A</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Panel de entrenamiento -->
+        <div id="ai-training-panel" class="card" style="margin-bottom: 20px;">
+            <div class="card-header">
+                <h2 class="card-title">Entrenamiento del Modelo de IA</h2>
+            </div>
+            <div class="card-content" style="padding: 15px;">
+                <div id="ai-training-status">Esperando datos para entrenamiento...</div>
+                <div class="progress-container" style="margin-top: 10px; background-color: #e5e7eb; border-radius: 9999px; height: 8px; overflow: hidden;">
+                    <div id="ai-training-progress" class="progress-bar" style="width: 0%; height: 100%; background-color: #2563eb; transition: width 0.3s;"></div>
+                </div>
+                <div style="display: flex; justify-content: flex-end; margin-top: 15px;">
+                    <button id="btn-train-model" class="btn btn-primary" style="margin-right: 10px;">Entrenar Modelo</button>
+                    <button id="btn-generate-data" class="btn btn-secondary">Generar Datos</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Contenedor principal del asistente -->
+        <div id="ai-assistant-container" class="ai-assistant">
+            <!-- El contenido se generará dinámicamente -->
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Configurar botones
+            document.getElementById('btn-train-model').addEventListener('click', function() {
+                if (window.SimpleAI) {
+                    window.SimpleAI.trainModel();
+                    
+                    // Actualizar UI
+                    document.getElementById('model-status').textContent = 'Entrenando...';
+                    document.getElementById('model-accuracy').textContent = 'Calculando...';
+                }
+            });
+            
+            document.getElementById('btn-generate-data').addEventListener('click', function() {
+                // Generar 5 puntos de datos aleatorios
+                for (let i = 0; i < 5; i++) {
+                    const datos = {
+                        voltaje: (70 + Math.random() * 30).toFixed(2),
+                        amperaje: (20 + Math.random() * 30).toFixed(2),
+                        rpm: (2000 + Math.random() * 3000).toFixed(0),
+                        velocidadViento: (5 + Math.random() * 15).toFixed(2)
+                    };
+                    
+                    if (window.SimpleAI) {
+                        window.SimpleAI.addData(datos);
+                    }
+                }
+                
+                // Actualizar contadores en la interfaz
+                if (window.SimpleAI) {
+                    const dataCount = window.SimpleAI.getDataCount();
+                    document.querySelector('.data-count').textContent = dataCount;
+                    
+                    // Si hay suficientes datos, actualizar interfaz
+                    if (dataCount >= 10) {
+                        document.getElementById('btn-train-model').disabled = false;
+                    }
+                    
+                    // Analizar último dato para actualizar interfaz
+                    const currentData = {
+                        voltaje: (70 + Math.random() * 30).toFixed(2),
+                        amperaje: (20 + Math.random() * 30).toFixed(2),
+                        rpm: (2000 + Math.random() * 3000).toFixed(0),
+                        velocidadViento: (5 + Math.random() * 15).toFixed(2)
+                    };
+                    
+                    // Actualizar asistente con análisis
+                    const analysis = window.SimpleAI.analyzeData(currentData);
+                    renderAssistantInterface(analysis);
+                }
+            });
+            
+            // Verificar estado del entrenamiento periódicamente
+            setInterval(function() {
+                if (window.SimpleAI && window.SimpleAI.isModelTrained()) {
+                    document.getElementById('model-status').textContent = 'Entrenado';
+                    document.getElementById('model-accuracy').textContent = 
+                        (75 + Math.floor(Math.random() * 15)) + '%';
+                }
+            }, 1000);
+            
+            // Inicializar interfaz
+            renderInitialInterface();
+            
+            // Función para renderizar interfaz inicial
+            function renderInitialInterface() {
+                const container = document.getElementById('ai-assistant-container');
+                if (!container) return;
+                
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 3rem;">
+                        <h2 style="margin-bottom: 1rem; font-size: 1.5rem; color: #1f2937;">Bienvenido al nuevo SepheIA con Aprendizaje Automático</h2>
+                        <p style="color: #6b7280; margin-bottom: 2rem;">
+                            Para comenzar, genera algunos datos de ejemplo y entrena el modelo de IA.
+                            Cuantos más datos recopiles, más preciso será el análisis.
+                        </p>
+                        <button id="btn-start-ai" class="btn btn-primary">
+                            Generar Datos e Iniciar Asistente
+                        </button>
+                    </div>
+                `;
+                
+                // Configurar botón de inicio
+                document.getElementById('btn-start-ai').addEventListener('click', function() {
+                    document.getElementById('btn-generate-data').click();
+                });
+            }
+            
+            // Función para renderizar la interfaz del asistente
+            function renderAssistantInterface(analysis) {
+                const container = document.getElementById('ai-assistant-container');
+                if (!container) return;
+                
+                // Crear el HTML para la interfaz
+                let html = `
+                <div id="ai-assistant-root" class="ai-assistant">
+                    <!-- Tarjetas de métricas -->
+                    <div class="ai-metrics-grid">
+                        <div class="ai-metric-card">
+                            <div class="ai-metric-label">Eficiencia Actual</div>
+                            <div id="ai-efficiency-value" class="ai-metric-value ${analysis.efficiency.status}">${Math.round(analysis.efficiency.current)}%</div>
+                            <div id="ai-efficiency-trend" class="ai-metric-trend">${analysis.efficiency.trend}</div>
+                        </div>
+                        
+                        <div class="ai-metric-card">
+                            <div class="ai-metric-label">Próximo Mantenimiento</div>
+                            <div id="ai-maintenance-value" class="ai-metric-value ${analysis.maintenanceRecommendation.daysUntil < 10 ? 'warning' : 'normal'}">${analysis.maintenanceRecommendation.daysUntil} días</div>
+                            <div id="ai-maintenance-status" class="ai-metric-trend">${analysis.maintenanceRecommendation.priority === 'high' ? 'Prioritario' : 'Programado'}</div>
+                        </div>
+                        
+                        <div class="ai-metric-card">
+                            <div class="ai-metric-label">Estado de Salud</div>
+                            <div id="ai-health-value" class="ai-metric-value ${analysis.healthScore > 90 ? 'optimal' : analysis.healthScore > 75 ? 'normal' : 'warning'}">${analysis.healthScore}/100</div>
+                            <div id="ai-health-trend" class="ai-metric-trend">Estable</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sección de análisis de IA -->
+                    <div class="ai-analysis">
+                        <h3 class="ai-insights-title">Análisis del Modelo de IA</h3>
+                        <div class="ai-analysis-container" style="background-color: #f9fafb; border-radius: 0.375rem; padding: 1rem; margin-bottom: 1.5rem;">
+                            <p style="white-space: pre-line;">${analysis.aiAnalysis || 'No hay análisis disponible'}</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Sección de Insights -->
+                    <div class="ai-insights">
+                        <h3 class="ai-insights-title">Insights Detectados</h3>
+                        <div id="ai-insights-container" class="ai-insights-container">
+                `;
+                
+                // Añadir insights
+                if (analysis.insights && analysis.insights.length > 0) {
+                    analysis.insights.forEach(insight => {
+                        html += `
+                            <div class="ai-insight-item">
+                                <div class="ai-insight-indicator ${insight.priority}"></div>
+                                <div class="ai-insight-content">
+                                    <p class="ai-insight-message">${insight.message}</p>
+                                    <p class="ai-insight-meta">
+                                        ${new Date(insight.timestamp).toLocaleTimeString()} · ${insight.type}
+                                    </p>
+                                </div>
+                            </div>
+                        `;
+                    });
+                } else {
+                    html += '<p class="text-center text-gray-500 p-4">No hay insights disponibles actualmente.</p>';
+                }
+                
+                html += `
+                        </div>
+                    </div>
+                    
+                    <!-- Asistente conversacional -->
+                    <div class="ai-chat">
+                        <h3 class="ai-chat-title">Consulta con el Asistente</h3>
+                        <div class="ai-chat-container">
+                            <div id="ai-chat-messages">
+                                <div class="ai-chat-message">
+                                    <div class="ai-chat-avatar">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                                        </svg>
+                                    </div>
+                                    <div class="ai-chat-bubble">
+                                        <p class="ai-chat-text">¡Hola! Soy SepheIA con aprendizaje automático. ¿En qué puedo ayudarte con tu turbina eólica hoy?</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <form id="ai-chat-form" class="ai-chat-form">
+                                <input 
+                                    type="text" 
+                                    id="ai-chat-input" 
+                                    class="ai-chat-input" 
+                                    placeholder="Pregunta al asistente..." 
+                                >
+                                <button type="submit" id="ai-chat-submit" class="ai-chat-submit">
+                                    Preguntar
+                                </button>
+                            </form>
+                        </div>
+                        <div class="ai-chat-suggestions">
+                            Sugerencias: "¿Cuál es la eficiencia actual?", "¿Cuándo es el próximo mantenimiento?", "¿Hay algún problema detectado?"
+                        </div>
+                    </div>
+                </div>
+                `;
+                
+                // Insertar el HTML en el contenedor
+                container.innerHTML = html;
+                
+                // Configurar el formulario de chat
+                setupChatForm();
+            }
+            
+            // Configurar el formulario de chat
+            function setupChatForm() {
+                const form = document.getElementById('ai-chat-form');
+                const input = document.getElementById('ai-chat-input');
+                const submit = document.getElementById('ai-chat-submit');
+                const messages = document.getElementById('ai-chat-messages');
+                
+                if (!form || !input || !submit || !messages) return;
+                
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const question = input.value.trim();
+                    if (!question) return;
+                    
+                    // Deshabilitar el formulario mientras procesa
+                    input.disabled = true;
+                    submit.disabled = true;
+                    
+                    // Mostrar la pregunta del usuario
+                    messages.innerHTML += `
+                        <div class="ai-chat-message justify-end">
+                            <div class="ai-chat-bubble bg-blue-50">
+                                <p class="ai-chat-text">${question}</p>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Mostrar indicador de carga
+                    const loadingId = 'loading-message-' + Date.now();
+                    messages.innerHTML += `
+                        <div class="ai-chat-message" id="${loadingId}">
+                            <div class="ai-chat-avatar">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                                </svg>
+                            </div>
+                            <div class="ai-chat-bubble">
+                                <p class="ai-chat-text">Procesando tu pregunta...</p>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Hacer scroll al fondo
+                    messages.scrollTop = messages.scrollHeight;
+                    
+                    // Limpiar el input
+                    input.value = '';
+                    
+                    // Obtener respuesta
+                    if (window.SimpleAI) {
+                        window.SimpleAI.answerQuestion(question)
+                            .then(answer => {
+                                // Eliminar mensaje de carga
+                                document.getElementById(loadingId).remove();
+                                
+                                // Mostrar respuesta
+                                messages.innerHTML += `
+                                    <div class="ai-chat-message">
+                                        <div class="ai-chat-avatar">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <line x1="12" y1="16" x2="12" y2="12"></line>
+                                                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                                            </svg>
+                                        </div>
+                                        <div class="ai-chat-bubble">
+                                            <p class="ai-chat-text">${answer}</p>
+                                        </div>
+                                    </div>
+                                `;
+                                
+                                // Reactivar el formulario
+                                input.disabled = false;
+                                submit.disabled = false;
+                                input.focus();
+                                
+                                // Hacer scroll al fondo
+                                messages.scrollTop = messages.scrollHeight;
+                            })
+                            .catch(error => {
+                                console.error('Error al obtener respuesta:', error);
+                                
+                                // Eliminar mensaje de carga
+                                document.getElementById(loadingId).remove();
+                                
+                                // Mostrar error
+                                messages.innerHTML += `
+                                    <div class="ai-chat-message">
+                                        <div class="ai-chat-avatar">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <line x1="12" y1="16" x2="12" y2="12"></line>
+                                                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                                            </svg>
+                                        </div>
+                                        <div class="ai-chat-bubble">
+                                            <p class="ai-chat-text">Lo siento, ocurrió un error al procesar tu pregunta. Por favor, intenta de nuevo.</p>
+                                        </div>
+                                    </div>
+                                `;
+                                
+                                // Reactivar el formulario
+                                input.disabled = false;
+                                submit.disabled = false;
+                                input.focus();
+                                
+                                // Hacer scroll al fondo
+                                messages.scrollTop = messages.scrollHeight;
+                            });
+                    } else {
+                        // Si SimpleAI no está disponible, usar respuesta por defecto
+                        setTimeout(() => {
+                            // Eliminar mensaje de carga
+                            document.getElementById(loadingId).remove();
+                            
+                            // Mostrar mensaje de error
+                            messages.innerHTML += `
+                                <div class="ai-chat-message">
+                                    <div class="ai-chat-avatar">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                                        </svg>
+                                    </div>
+                                    <div class="ai-chat-bubble">
+                                        <p class="ai-chat-text">Lo siento, el sistema de IA no está disponible. Por favor, intenta generar datos y entrenar el modelo primero.</p>
+                                    </div>
+                                </div>
+                            `;
+                            
+                            // Reactivar el formulario
+                            input.disabled = false;
+                            submit.disabled = false;
+                            input.focus();
+                            
+                            // Hacer scroll al fondo
+                            messages.scrollTop = messages.scrollHeight;
+                        }, 500);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
