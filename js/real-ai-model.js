@@ -1151,7 +1151,7 @@ const RealTurbineAI = (function() {
             }
             
             // Si el modelo está entrenado, usar respuestas más informadas
-            // Esto es una simulación simplificada, en un caso real se procesaría el lenguaje natural
+            
             question = question.toLowerCase();
             
             // Obtener el último registro de datos
