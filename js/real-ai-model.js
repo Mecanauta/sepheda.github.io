@@ -1221,11 +1221,108 @@ const RealTurbineAI = (function() {
         console.log('[RealTurbineAI] Verificación de TensorFlow.js exitosa');
     }
 
-    // Interfaz pública
+        // Funciones para múltiples turbinas
+    function trainWithMultipleTurbines(allTurbineData) {
+        try {
+            console.log('[RealTurbineAI] Entrenando con datos de múltiples turbinas...');
+            
+            let combinedData = [];
+            Object.entries(allTurbineData).forEach(([turbineId, data]) => {
+                data.forEach(point => {
+                    combinedData.push({
+                        ...point,
+                        source_turbine: turbineId
+                    });
+                });
+            });
+            
+            combinedData = combinedData.sort(() => Math.random() - 0.5);
+            console.log(`[RealTurbineAI] Datos combinados: ${combinedData.length} puntos`);
+            
+            trainingData = combinedData;
+            return trainModel();
+        } catch (error) {
+            console.error('[RealTurbineAI] Error en entrenamiento múltiple:', error);
+            return {
+                status: 'error',
+                message: 'Error al entrenar con múltiples turbinas: ' + error.message
+            };
+        }
+    }
+
+    function compareMultipleTurbines(allTurbineData) {
+        try {
+            const comparison = {};
+            
+            Object.entries(allTurbineData).forEach(([turbineId, data]) => {
+                if (data.length > 0) {
+                    const latest = data[data.length - 1];
+                    comparison[turbineId] = {
+                        latestData: latest,
+                        efficiency: calculateEfficiency(latest),
+                        dataPoints: data.length
+                    };
+                }
+            });
+            
+            return {
+                status: 'success',
+                comparison: comparison,
+                insights: generateMultiTurbineInsights(comparison)
+            };
+        } catch (error) {
+            return {
+                status: 'error',
+                message: 'Error al comparar turbinas: ' + error.message
+            };
+        }
+    }
+
+    function generateMultiTurbineInsights(comparison) {
+        const insights = [];
+        const turbineIds = Object.keys(comparison);
+        
+        if (turbineIds.length >= 2) {
+            // Comparar eficiencias
+            let bestTurbine = null;
+            let worstTurbine = null;
+            let bestEfficiency = 0;
+            let worstEfficiency = 100;
+            
+            turbineIds.forEach(id => {
+                const eff = comparison[id].efficiency;
+                if (eff > bestEfficiency) {
+                    bestEfficiency = eff;
+                    bestTurbine = id;
+                }
+                if (eff < worstEfficiency) {
+                    worstEfficiency = eff;
+                    worstTurbine = id;
+                }
+            });
+            
+            if (bestTurbine && worstTurbine && bestTurbine !== worstTurbine) {
+                insights.push({
+                    id: Date.now() + '-efficiency-comparison',
+                    type: 'comparison',
+                    message: `Turbina ${bestTurbine}: ${bestEfficiency.toFixed(1)}% vs ${worstTurbine}: ${worstEfficiency.toFixed(1)}%. Diferencia: ${(bestEfficiency - worstEfficiency).toFixed(1)}%`,
+                    timestamp: new Date(),
+                    priority: worstEfficiency < 70 ? 'high' : 'normal'
+                });
+            }
+        }
+        
+        return insights;
+    }
+
+    // Modificar el return para incluir las nuevas funciones
     return {
         initialize,
         addTrainingData,
         trainModel,
+        trainWithMultipleTurbines,
+        compareMultipleTurbines,
+        generateMultiTurbineInsights,
         predictNext,
         detectAnomalies,
         generateInsights,
@@ -1234,6 +1331,7 @@ const RealTurbineAI = (function() {
         isModelTrained: () => isModelTrainedFlag,
         checkTensorFlow
     };
+
 })();
 // Añadir al final del archivo, antes de la exportación
 async function resetTensorFlow() {

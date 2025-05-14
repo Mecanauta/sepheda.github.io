@@ -228,5 +228,38 @@
     </style>
     <!--Visiualizador-->
     <script src="js/data-visualizer.js"></script>
+    <!-- Script para múltiples turbinas -->
+    <script src="js/multi-turbine-manager.js"></script>
+
+    <!-- Modificaciones al script existente -->
+    <script>
+        // Añadir botón para entrenar con todas las turbinas
+        document.addEventListener('DOMContentLoaded', function() {
+            // Código existente...
+            
+            // Añadir botón adicional
+            const generateButton = document.getElementById('btn-generate-data');
+            if (generateButton) {
+                const trainAllButton = document.createElement('button');
+                trainAllButton.id = 'btn-train-all-turbines';
+                trainAllButton.className = 'btn btn-success';
+                trainAllButton.style.marginLeft = '10px';
+                trainAllButton.textContent = 'Entrenar con Todas las Turbinas';
+                trainAllButton.addEventListener('click', function() {
+                    if (window.MultiTurbineManager && window.RealTurbineAI) {
+                        // Generar datos para todas las turbinas
+                        window.MultiTurbineManager.generateBulkData(50);
+                        
+                        // Entrenar con todos los datos
+                        setTimeout(() => {
+                            trainWithAllTurbines();
+                        }, 1000);
+                    }
+                });
+                
+                generateButton.parentNode.insertBefore(trainAllButton, generateButton.nextSibling);
+            }
+        });
+    </script>
 </body>
 </html>

@@ -11,6 +11,50 @@ let turbineAIReady = false;
 let realTurbineAIReady = false;
 let sepheiaInitialized = false;
 
+let multiTurbineSystemReady = false;
+
+// Escuchar cambio de turbina
+window.addEventListener('turbineChanged', function(e) {
+    console.log('Turbina cambiada:', e.detail.turbineId);
+    const turbineData = e.detail.turbine;
+    if (turbineData && window.RealTurbineAI) {
+        const currentData = window.MultiTurbineManager.generateTurbineData(turbineData);
+        window.RealTurbineAI.addTrainingData(currentData);
+    }
+});
+
+// Modificar checkSystemsAndInitialize
+function checkSystemsAndInitialize(force = false) {
+    if (sepheiaInitialized) return;
+    
+    multiTurbineSystemReady = !!window.MultiTurbineManager;
+    console.log(`Sistemas: TurbineAI=${turbineAIReady}, RealTurbineAI=${realTurbineAIReady}, MultiTurbine=${multiTurbineSystemReady}`);
+    
+    if ((turbineAIReady && realTurbineAIReady && multiTurbineSystemReady) || force) {
+        console.log('Iniciando SepheIA con múltiples turbinas');
+        checkAuthAndInitialize();
+    }
+}
+
+// Añadir función para entrenar con todas las turbinas
+function trainWithAllTurbines() {
+    if (!window.RealTurbineAI || !window.MultiTurbineManager) return;
+    
+    console.log('Entrenando IA con datos de todas las turbinas...');
+    const allData = window.MultiTurbineManager.getAllData();
+    
+    if (window.RealTurbineAI.trainWithMultipleTurbines) {
+        window.RealTurbineAI.trainWithMultipleTurbines(allData)
+            .then(result => {
+                console.log('Entrenamiento completado:', result);
+                const statusElement = document.getElementById('ai-training-status');
+                if (statusElement) {
+                    statusElement.textContent = `Entrenado con ${Object.keys(allData).length} turbinas. Pérdida: ${result.finalLoss?.toFixed(4) || 'N/A'}`;
+                }
+            });
+    }
+}
+
 // Verificar si los sistemas de IA están disponibles inmediatamente
 console.log('Script sepheia.js cargado. TurbineAI disponible:', !!window.TurbineAI);
 console.log('Script sepheia.js cargado. RealTurbineAI disponible:', !!window.RealTurbineAI);
